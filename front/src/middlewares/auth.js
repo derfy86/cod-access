@@ -193,10 +193,10 @@ export default (store) => (next) => async (action) => {
     case UPLOAD_FILE_PROFILE:
       try {
         const data = new FormData();
-        data.append('profile', action.selectedFile);
+        data.append('picture', action.selectedFile);
         const response = await axiosInstance.post('/upload_client', data);
 
-        if (reponse.status !== 200) {
+        if (response.status !== 200) {
           throw new Error();
         }
 
