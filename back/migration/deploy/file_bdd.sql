@@ -43,7 +43,6 @@ CREATE TABLE exercise (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title text NOT NULL,
     brief text,
-    slug text,
     published boolean NOT NULL,
     kind_id int REFERENCES kind(id) ON DELETE SET NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),

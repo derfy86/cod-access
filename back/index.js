@@ -5,9 +5,6 @@ const router = require('./app/router');
 const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
 
-// must be deleted
-// const bodyParser = require('body-parser');
-
 const app = express();
 
 const port = process.env.PORT || 5000;

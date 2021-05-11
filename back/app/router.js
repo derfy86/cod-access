@@ -68,8 +68,8 @@ router.route('/csrf-token')
 
 router.route('/admin/image/:id')
 /**
- * @route DELETE /admin/image/:imageId
- * @param {Number} [imageId] - id from picture
+ * @route DELETE /admin/image/:id
+ * @param {Number} [id] - id from picture
  * @group picture - picture management
  * @returns {object} 200 - { message: "picture deleted" }
  * @returns {Error}  406 - { errorType: 406, message: `the provided id must be a number` }
@@ -157,14 +157,7 @@ router.route('/signin')
 /**
  * @route POST /signin
  * @group auth - authorisation and security
- * @returns {object} 200 - {
-              id: client.id,
-              pseudo: client.pseudo,
-              email: client.email,
-              responsibility: client.responsibility,
-              picture_id: client.picture_id,
-              client_picture: client.client_picture
-            }
+ * @returns {object} 200 - { id: client.id, pseudo: client.pseudo, email: client.email, responsibility: client.responsibility, picture_id: client.picture_id, client_picture: client.client_picture }
  * @returns {Error}  401 - { errorType: 401, message: `unauthorized` }
  * @returns {Error}  404 - { errorType: 404, message: `miss client` }
  * @returns {Error}  411 - { errorType: 411, message: `need email or password` }
@@ -187,11 +180,7 @@ router.route('/upload_question')
 /**
  * @route POST /upload_question
  * @group picture - picture management
- * @returns {object} 200 - {
-              pictureId: result.id,
-              picturePath: result.path,
-              pictureAlt: result.alternative
-            }
+ * @returns {object} 200 - { pictureId: result.id, picturePath: result.path, pictureAlt: result.alternative }
  * @returns {Error}  500 - Unexpected error
  */
     .post(authorizationMiddlewareNotPass, sanitizer, isAdmin, multerConfig,  exerciseController.addImageToQuestion);
@@ -206,7 +195,7 @@ router.route('/signup')
  * @returns {Error}  406 - { errorType: 406, message: `email incorrect, or password and confirm not same, or email used` }
  * @returns {Error}  500 - Unexpected error or { errorType: 500, message: `mail failed` }
  */
-    .post(authController.submitSignupForm);
+    .post(sanitizer, authController.submitSignupForm);
 
 
 router.route('/contact')
@@ -238,7 +227,7 @@ router.route('/exercises_score')
  * @returns {object} 200 - An object with all exercises and score about the user
  * @returns {Error}  500 - Unexpected error 
  */
-    .get(authorizationMiddlewareNotPass, exerciseController.getAllExercisesWithScore);
+    .get(authorizationMiddlewareNotPass, sanitizer, exerciseController.getAllExercisesWithScore);
 
 
 router.route('/exercises/dragndrop/:id')

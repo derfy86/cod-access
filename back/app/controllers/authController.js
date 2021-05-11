@@ -126,7 +126,6 @@ module.exports = {
           include: ['responsibility', 'client_picture']
         });
         if (!client) {
-          console.log("miss client")
           return res.status(404).json({
             errorType: 404,
             message: 'miss client'
@@ -154,10 +153,9 @@ module.exports = {
             });
             
           } else {
-            console.log("mauvais mot de passe")
             return res.status(401).json({
               errorType: 401,
-              message: 'unauthorized'
+              message: 'wrong password'
             });
           }
         }
@@ -250,7 +248,7 @@ module.exports = {
       if (req.body.email.length === 0) {
         return res.status(411).json({
           errorType: 411,
-          message: 'need name'
+          message: 'need mail'
         });
       };
       const isValidEmail = emailValidator.validate(req.body.email);

@@ -1,4 +1,4 @@
-const { Picture, Client, Question } = require('../models');
+const { Picture, Client } = require('../models');
 const bcrypt = require('bcrypt');
 const emailValidator = require('email-validator');
 

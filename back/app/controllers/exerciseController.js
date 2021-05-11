@@ -1,6 +1,3 @@
-// must be deleted ?
-const { ClientBase } = require('pg');
-
 const {
     Exercise,
     Client,
@@ -455,6 +452,7 @@ module.exports = {
 
     submitExercise: async (req, res, next) => {
         try {
+            /** we check the id about the exercise */
             const exerciseId = Number(req.params.id);
             if (isNaN(exerciseId)) {
                 return res.status(406).json({
@@ -463,6 +461,7 @@ module.exports = {
                 });
             }
 
+            /** we take in database the exercise with: the relation about user, all questions and only the correct possible answers */
             const exercise = await Exercise.findByPk(exerciseId, {
                 include: [
                     'clients',
@@ -479,31 +478,47 @@ module.exports = {
                 ]
             });
 
+            /** here we make an array with: for each question an object contains the id of the question, the id of the correct answer and the explaination
+             *  example about correction: [ { id: 6, rightAnswers: [ 20 ], explanation: '<p>@todo</p>' } ]
+             */
             const correction = exercise.questions.map((question) => ({
                 id: question.id,
                 rightAnswers: question.possible_answers.map((answer) => answer.id),
                 explanation: question.explanation,
             }));
 
+            /** then we init the function reducer and the successfulQuestions by an empty array */
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
             const successfulQuestions = [];
 
+            /** for every question the user can give all answers, but we want to say that the user have good only if he give the correct answers
+             * to check we count all the user answers by the id's and count all the correct answers by the id's too 
+             * if the counting is match the user have a good point
+             */
             for (question of correction) {
+                /** here we take the id of every answers that give the user */
                 const userAnswers = req.body.find((userData) => userData.questionId === question.id).answers;
+                /** and the we count the id's */
                 const countUserAnswers = userAnswers.reduce(reducer);
+                /** we count the id's too about only correct answers */
                 const countRightAnswers = question.rightAnswers.reduce(reducer);
+                /** check match counting */
                 if (countUserAnswers === countRightAnswers) {
                     successfulQuestions.push(question.id);
                 }
             }
+
+            /** we make a pourcentage about the user good answers and the number total of questions in this exercise */
             const scoreResult = Math.round((successfulQuestions.length / exercise.questions.length) * 100)
+
+            /** if conected user, we take he's infomations in database */
             if (req.user) {
                 const clientId = req.user.clientId
                 const client = await Client.findByPk(clientId, {
                     include: [{ model: Exercise, as: 'exercises', where: { id: exercise.id }, required: false }],
                 })
 
-                //If user never played this exercise, i can directly save his score
+                /** If user never played this exercise, i can directly save his score and return the result */
                 if (!client.exercises[0]) {
                     const result = new Client_exercise({
                         score: scoreResult,
@@ -511,7 +526,6 @@ module.exports = {
                         exercise_id: exerciseId
                     })
                     await result.save()
-                    //return the result for his first play
                     return res.status(200).json({
                         message: `user finish with score: ${scoreResult}`,
                         correction,
@@ -519,13 +533,13 @@ module.exports = {
                     });
 
                 } else {
-                    //if user has already played this exercise, we need to compare last and new scores
+                    /** if user has already played this exercise, we need to compare last and new scores */
                     const oldScore = client.exercises[0].Client_exercise.score
                     if (oldScore === null || oldScore < scoreResult) {
+                        /** the new score is the best, we save it and return */
                         const updateScore = await Client_exercise.findOne({
                             where: { client_id: clientId, exercise_id: exerciseId }
                         })
-                        //the new score is the best, we save it and return
                         await updateScore.update({ score: scoreResult })
                         return res.status(200).json({
                             message: `user finish with score: ${scoreResult}`,
@@ -534,7 +548,7 @@ module.exports = {
                         });
 
                     } else {
-                        //the new score is NOT the best, we DON'T save it and we return
+                        /** the new score is NOT the best, we DON'T save it and we return */
                         return res.status(200).json({
                             message: `user finish with score: ${scoreResult}`,
                             correction,
@@ -544,7 +558,7 @@ module.exports = {
                 }
             };
 
-            //the user is not connecting, we return the score without saving it
+            /** the user is not connected, we return the score without saving it */
             return res.status(200).json({
                 message: `user finish with score: ${scoreResult}`,
                 correction,
