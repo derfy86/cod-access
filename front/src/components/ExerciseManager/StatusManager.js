@@ -99,7 +99,7 @@ const StatusManager = ({
         }
       </div>
       <button
-        className="button--primary"
+        className="button button--primary"
         type="button"
         onClick={() => changeExerciseStatus({
           name: 'published',
@@ -113,7 +113,7 @@ const StatusManager = ({
         }
       </button>
       <button
-        className="admin-exercise__form__general-info__button admin-exercise__form__general-info__button--remove-exercise button--delete"
+        className="admin-exercise__form__general-info__button admin-exercise__form__general-info__button--remove-exercise button button--delete"
         type="button"
         onClick={handleDeleteExercise}
       >

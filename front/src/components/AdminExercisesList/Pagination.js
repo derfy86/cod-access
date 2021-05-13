@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './styles.scss';
@@ -7,7 +8,7 @@ import './styles.scss';
 const Pagination = ({ totalPages, activePage }) => {
   const pageLinks = [];
 
-  for (let i = 1; i <= totalPages; i++) {
+  for (let i = 1; i <= totalPages; i += 1) {
     pageLinks.push(
       <li key={i}>
         <NavLink
@@ -28,6 +29,11 @@ const Pagination = ({ totalPages, activePage }) => {
       </ul>
     </nav>
   );
+};
+
+Pagination.propTypes = {
+  totalPages: PropTypes.number.isRequired,
+  activePage: PropTypes.number.isRequired,
 };
 
 export default Pagination;

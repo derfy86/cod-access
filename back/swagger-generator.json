@@ -1,0 +1,27 @@
+{
+    "swagger":"2.0",
+    "swaggerDefinition": {
+        "info": {
+        "description": "cod'access roads",
+        "version": "2.0.0",
+        "title": "Cod'access",
+        "contact": {
+            "email": "cod.access11@gmail.com"
+        }
+        },
+        "basePath": "/",
+        "produces": [
+            "application/json"
+        ],
+        "schemes": ["http"],
+        "securityDefinitions": {
+            "JWT": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization",
+                "description": ""
+            }
+        }
+    },
+    "files": ["./app/router.js"]
+}

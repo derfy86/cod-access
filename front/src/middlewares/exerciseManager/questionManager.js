@@ -134,16 +134,14 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setExerciseManagerUpdateLoading(true));
 
         const fileInfo = new FormData();
-        fileInfo.append('profile', action.file);
+        fileInfo.append('picture', action.file);
         fileInfo.append('question_id', action.questionId);
         fileInfo.append('alternative', action.alternative);
 
         if (!action.file) {
           return next(action);
         }
-
         const response = await axiosInstance.post('/upload_question', fileInfo);
-
         if (response.status !== 200) {
           throw new Error();
         }
@@ -157,7 +155,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'confirm',
           message: 'L\'image a bien été associée à cette question',
-          componentToDisplayIn: `QuestionManager-q${action.questionId}`,
+          targetComponent: `QuestionManager-q${action.questionId}`,
         }));
         store.dispatch(setExerciseManagerIsSaved(true));
       }
@@ -166,7 +164,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'error',
           message: 'L\'image n\'a pas pu être chargée sur le serveur',
-          componentToDisplayIn: `QuestionManager-q${action.questionId}`,
+          targetComponent: `QuestionManager-q${action.questionId}`,
         }));
       }
       finally {

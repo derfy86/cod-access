@@ -1,11 +1,16 @@
 @import "src/styles/vars";
 
 .legal-notice {
-
-   margin: 3rem 10rem;
-
+  margin: 3rem 10rem;
   &__text {
-    padding-bottom: 2rem;
+    margin-bottom: $gutter;
+  }
+
+  &__list{
+    margin-bottom: $gutter;
+    li{
+      margin-bottom: 1rem;
+    }
   }
 }
 

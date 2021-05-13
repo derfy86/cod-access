@@ -26,10 +26,6 @@
       {
         "name": "Theme",
         "description": "Access to themes with exercises"
-      },
-      {
-        "name": "Doc",
-        "description": "Everything about docs"
       }
     ],
     "schemes": [
@@ -250,34 +246,6 @@
         }
       },
       
-      "favorites/{id_client}/{id_docs}": {
-        "post": {
-          "tags": [
-            "Client"
-          ],
-          "summary": "Add a doc in client favorites",
-          "description": "Using by the client to add a doc in his favorites",
-           "parameters": [ 
-            { 
-                "name": "id", 
-                "in": "path", 
-                "description": "id du client à retourner", 
-                "required": true, 
-                "type": "integer", 
-                "format": "int32" 
-            } 
-                  ], 
-          "responses": {
-            "200": {
-              "description": "successful operation"
-            },
-            "500": {
-              "description": "server wrong"
-            }
-          }
-        }
-      },
-      
       "clients/{id}": {
         "delete": {
           "tags": [
@@ -447,116 +415,6 @@
           }
         }
       },
-      
-      "docs": {
-        "get": {
-          "tags": [
-            "Doc"
-          ],
-          "summary": "Get all docs",
-          "description": "Give all docs",
-          "responses": {
-            "200": {
-             "description": "successful operation"
-            },
-            "500": {
-              "description": "server wrong"
-            }
-          }
-        }
-      },
-      
-      "docs/new": {
-        "post": {
-          "tags": [
-            "Doc"
-          ],
-          "summary": "Create a new doc",
-          "description": "Add a new doc in database by admin",
-          "responses": {
-            "200": {
-             "description": "successful operation"
-            },
-            "500": {
-              "description": "server wrong"
-            }
-          }
-        }
-      },
-      
-      "docs/{id}": {
-        "get": {
-          "tags": [
-            "Doc"
-          ],
-          "summary": "Get one doc",
-          "description": "Give one doc",
-          "responses": {
-            "200": {
-             "description": "successful operation"
-            },
-            "500": {
-              "description": "server wrong"
-            }
-          }
-        } 
-      },
-      
-      "docs/{ id}": {
-        "patch": {
-          "tags": [
-            "Doc"
-          ],
-          "summary": "For any modification to a doc ",
-          "description": "Using by admin to change a doc in database",
-          "responses": {
-            "200": {
-             "description": "successful operation"
-            },
-            "500": {
-              "description": "server wrong"
-            }
-          }
-        }
-      },
-      
-      "published_docs": {
-        "get": {
-          "tags": [
-            "Doc"
-          ],
-          "summary": "Get all docs published",
-          "description": "Give all docs published",
-          "responses": {
-            "200": {
-             "description": "successful operation"
-            },
-            "500": {
-              "description": "server wrong"
-            }
-          }
-        } 
-      },
-      
-      "docs/{ id }": {
-        "delete": {
-          "tags": [
-            "Doc"
-          ],
-          "summary": "Delete one doc",
-          "description": "Delete one doc from database",
-          "responses": {
-            "200": {
-             "description": "successful operation"
-            },
-            "500": {
-              "description": "server wrong"
-            }
-          }
-        } 
-      }
-      
-   },
    
     "definitions": {
   

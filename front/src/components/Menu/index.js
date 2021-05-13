@@ -28,9 +28,9 @@ const Menu = ({
         'header-wrapper__menu__toggle-btn__stripes--cross': mobileMenuVisibility,
       })}
       >
-        <span></span>
-        <span></span>
-        <span></span>
+        <span />
+        <span />
+        <span />
       </div>
     </button>
     <ul
@@ -49,11 +49,6 @@ const Menu = ({
           Challenges
         </NavLink>
       </li>
-      {/* <li>
-        <NavLink className="header-wrapper__menu__list__link" to="/documentations" exact activeClassName="header-wrapper__menu__list__link--active">
-          Documentations
-        </NavLink>
-      </li> */}
       <li>
         <NavLink className="header-wrapper__menu__list__link" to="/a-propos" exact activeClassName="header-wrapper__menu__list__link--active">
           À propos

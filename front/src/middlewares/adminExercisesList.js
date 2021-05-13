@@ -38,7 +38,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'confirm',
           message: `L'exercice #${action.idExercise} a bien été supprimé.`,
-          componentToDisplayIn: 'AdminExercisesList',
+          targetComponent: 'AdminExercisesList',
         }));
       }
       catch (err) {
@@ -46,7 +46,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'error',
           message: 'Une erreur est survenue lors de la suppression.',
-          componentToDisplayIn: 'AdminExercisesList',
+          targetComponent: 'AdminExercisesList',
         }));
       }
       finally {

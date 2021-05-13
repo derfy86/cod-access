@@ -3,6 +3,6 @@
 BEGIN;
 
 -- XXX Add DDLs here.
-DROP TABLE exercise_theme, theme_doc, client_doc, client_exercise, possible_answer, theme, doc, question, exercise, kind, client, picture, responsibility;
+DROP TABLE exercise_theme, client_exercise, possible_answer, theme, question, exercise, kind, client, picture, responsibility;
 
 COMMIT;

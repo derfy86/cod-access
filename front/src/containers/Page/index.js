@@ -3,11 +3,11 @@ import Page from 'src/components/Page';
 import { setConnectionVisibility } from 'src/actions/auth';
 import { setMobileMenuVisibility } from 'src/actions/other';
 
-const mapStateToProps = (state) => ({
-  isLogged: state.auth.isLogged,
-  role: state.auth.user.role,
-  connectionMenuVisibility: state.auth.isVisible,
-  mobileMenuVisibility: state.other.mobileMenuVisibility,
+const mapStateToProps = ({ auth, other}) => ({
+  isLogged: auth.user.isLogged,
+  role: auth.user.role,
+  connectionMenuVisibility: auth.signIn.isVisible,
+  mobileMenuVisibility: other.mobileMenuVisibility,
 });
 
 const mapDispatchToProps = (dispatch) => ({

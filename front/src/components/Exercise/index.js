@@ -59,7 +59,7 @@ const Exercise = ({
         </Link>
         {
           currentQuestionIndex === 0 && (
-            messageParams.isVisible && messageParams.componentToDisplayIn === 'Exercise'
+            messageParams.targetComponent === 'Exercise'
               ? (
                 <Message {...messageParams} />
               )
@@ -91,7 +91,7 @@ const Exercise = ({
           {
             currentQuestionIndex > 0 && (
               <button
-                className="button--secondary"
+                className="button button--secondary"
                 type="button"
                 onClick={() => changeQuestion(currentQuestionIndex - 1)}
                 disabled={resultsLoading}
@@ -110,7 +110,7 @@ const Exercise = ({
                     : ''
                 }
                 disabled={!questions[currentQuestionIndex].userAnswers.length}
-                className="exercise-section__navigation__submit button--primary"
+                className="exercise-section__navigation__submit button button--primary"
                 type="button"
                 onClick={
                   () => changeQuestion(currentQuestionIndex + 1)
@@ -129,7 +129,7 @@ const Exercise = ({
                     ? 'Veuillez renseigner une réponse'
                     : ''
                 }
-                className="button--primary"
+                className="button button--primary"
                 type="button"
                 disabled={!questions[currentQuestionIndex].userAnswers.length || resultsLoading}
                 onClick={submitAnswers}
@@ -155,7 +155,7 @@ const Exercise = ({
           {
             isCorrected
             && (currentQuestionIndex === questions.length - 1) && (
-              <Link to="/challenges" className="button--primary">
+              <Link to="/challenges" className="button button--primary">
                 Retourner à la liste des challenges
               </Link>
             )
@@ -177,12 +177,11 @@ Exercise.propTypes = {
   submitAnswers: PropTypes.func.isRequired,
   resetCurrentExercise: PropTypes.func.isRequired,
   messageParams: PropTypes.shape({
-    isVisible: PropTypes.bool.isRequired,
-    componentToDisplayIn: PropTypes.string.isRequired,
+    targetComponent: PropTypes.string.isRequired,
   }).isRequired,
   closeMessage: PropTypes.func.isRequired,
   isCorrected: PropTypes.bool.isRequired,
-  resultsLoading: PropTypes.bool.isRequired
+  resultsLoading: PropTypes.bool.isRequired,
 };
 
 Exercise.defaultProps = {

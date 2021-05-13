@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { faAward } from '@fortawesome/free-solid-svg-icons';
 import ProgressBar from './ProgressBar';
 
@@ -21,8 +20,8 @@ const Profile = ({
         <div className="profile__content">
           <img className="profile__content__img" src={`${process.env.IMAGE}${picturePath}`} alt="" />
           <div className="profile__content__infos">
-            <h2 className="profile__content__infos__pseudo">Pseudo : {pseudo}</h2>
-            <h2 className="profile__content__infos__email">Email : {email}</h2>
+            <p className="profile__content__infos__pseudo">Pseudo : {pseudo}</p>
+            <p className="profile__content__infos__email">Email : {email}</p>
           </div>
         </div>
         <div className="profile__progress">

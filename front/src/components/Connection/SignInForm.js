@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
+import TextField from 'src/components/TextField';
+import useFormManager from 'src/hooks/useFormManager';
 import Message from 'src/containers/Message';
-import FieldGroup from 'src/containers/Connection/FieldGroup';
 import CircleLoader from 'src/components/CircleLoader';
 
 import './styles.scss';
@@ -12,51 +13,79 @@ import './styles.scss';
 const SignInForm = ({
   trySignIn,
   messageParams,
-  checkEmptyField,
-  validateInput,
   loading,
+  displayMessage,
 }) => {
+  const formManagerConfig = {
+    submitCallback: trySignIn,
+    cannotSubmitCallback: () => displayMessage({
+      type: 'error',
+      message: 'Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre le formulaire.',
+      targetComponent: 'SignInForm',
+    }),
+    initialFields: {
+      email: {
+        value: '',
+        isRequired: true,
+      },
+      password: {
+        value: '',
+        isRequired: true,
+      },
+    },
+  };
+
+  const formManager = useFormManager(formManagerConfig);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    trySignIn();
+    formManager.trySubmit();
   };
 
   return (
     <>
       <form className="header-wrapper__connection__toggle-area__form" onSubmit={handleSubmit}>
         {
-          messageParams.isVisible
-          && messageParams.componentToDisplayIn === 'SignInForm'
+          messageParams.targetComponent === 'SignInForm'
           && (
             <Message {...messageParams} />
           )
         }
-        <FieldGroup
+        <TextField
           type="email"
           id="signin-email"
           label="Adresse e-mail (nom@domaine.fr)"
           name="email"
           autocomplete="email"
-          isMandatory
-          checkEmptyField={checkEmptyField}
-          validateInput={validateInput}
+          inputClassName="full"
+          isRequired
+          value={formManager.fields.email.value}
+          errorMessage={formManager.fieldErrors.email}
+          changeValue={formManager.updateValue}
+          checkIsFilled={formManager.checkIsFilled}
+          checkEmailFormat={formManager.checkEmailFormat}
         />
-        <FieldGroup
+        <TextField
           type="password"
           id="signin-password"
           label="Mot de passe"
           name="password"
           autocomplete="current-password"
-          checkEmptyField={checkEmptyField}
+          inputClassName="full"
+          isRequired
+          value={formManager.fields.password.value}
+          errorMessage={formManager.fieldErrors.password}
+          changeValue={formManager.updateValue}
+          checkIsFilled={formManager.checkIsFilled}
         />
         <Link className="header-wrapper__connection__toggle-area__form__link" to="/oubli-mot-de-passe">
           Mot de passe oublié
         </Link>
         <button
-          className="button--secondary header-wrapper__connection__toggle-area__form__submit"
+          className="button button--secondary header-wrapper__connection__toggle-area__form__submit"
           type="submit"
         >
-          <span className="">Se connecter</span>
+          <span className="button__text">Se connecter</span>
           {
             loading && (
               <CircleLoader
@@ -81,13 +110,9 @@ const SignInForm = ({
 SignInForm.propTypes = {
   trySignIn: PropTypes.func.isRequired,
   messageParams: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-    componentToDisplayIn: PropTypes.string.isRequired,
-    isVisible: PropTypes.bool.isRequired,
+    targetComponent: PropTypes.string.isRequired,
   }).isRequired,
-  checkEmptyField: PropTypes.func.isRequired,
-  validateInput: PropTypes.func.isRequired,
+  displayMessage: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 

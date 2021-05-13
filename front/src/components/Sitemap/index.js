@@ -1,66 +1,60 @@
-import React, { useImperativeHandle } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './styles.scss';
 
 const Sitemap = () => (
-  <section className="site-map">
-
-    <h1 className="title-h1 center">Plan du site</h1>
-
-    <h2 className="title-h2">Navigation Header</h2>
-
+  <section className="sitemap">
+    <h1 className="title-h1">Plan du site</h1>
+    <h2 className="title-h2">Navigation En-tête</h2>
     <ul>
       <li>
-        <Link className="header-wrapper__header__link" to="/">
-          <p>Accueil</p>
+        <Link className="sitemap__link" to="/">
+          Accueil
         </Link>
       </li>
       <li>
-        <Link className="header-wrapper__header__link" to="/challenges">
-          <p>Challenges</p>
+        <Link className="sitemap__link" to="/challenges">
+          Challenges
         </Link>
       </li>
       <li>
-        <Link className="header-wrapper__header__link" to="/a-propos">
-          <p>À propos</p>
+        <Link className="sitemap__link" to="/a-propos">
+          À propos
         </Link>
       </li>
       <li>
-        <Link className="header-wrapper__header__link" to="/contact">
-          <p>Contact</p>
+        <Link className="sitemap__link" to="/contact">
+          Contact
         </Link>
       </li>
     </ul>
-
     <h2 className="title-h2">Gestion du compte</h2>
     <ul>
       <li>
-        <Link className="header-wrapper__header__link" to="/oubli-mot-de-passe">
-          <p>Mot de passe oublié</p>
+        <Link className="sitemap__link" to="/oubli-mot-de-passe">
+          Mot de passe oublié
         </Link>
       </li>
       <li>
-        <Link className="header-wrapper__header__link" to="/inscription">
-          <p>Inscription</p>
+        <Link className="sitemap__link" to="/inscription">
+          Inscription
         </Link>
       </li>
     </ul>
-
-    <h2 className="title-h2">Navigation Footer</h2>
+    <h2 className="title-h2">Navigation Pied de page</h2>
     <ul>
       <li>
-        <Link className="header-wrapper__header__link" to="/mentions-legales">
-          <p>Mentions légales</p>
+        <Link className="sitemap__link" to="/mentions-legales">
+          Mentions légales
         </Link>
       </li>
       <li>
-        <Link className="header-wrapper__header__link" to="/plan-du-site">
-          <p>Plan du site</p>
+        <Link className="sitemap__link" to="/plan-du-site">
+          Plan du site
         </Link>
       </li>
     </ul>
-
   </section>
 );
 

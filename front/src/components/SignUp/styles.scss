@@ -2,31 +2,43 @@
 
 .signup{
   padding: $gutter;
+  display: flex;
+
+  &__illustration{
+    width: 50%;
+    margin-bottom: 5rem;
+    padding: 0 2rem 4rem 2rem;
+  }
+  
   &__content{
     display: flex;
-    padding-bottom: 7rem;
-    &__illustration{
-      width: 40%;
-      margin: 0 auto;
-      padding: 0 2rem 4rem 2rem;
+    flex-direction: column;
+    width: 50%;
+
+    &__title{
+      margin-top: 1rem;
+      text-align: center;
+
     }
+
     &__form{
       margin: 3rem auto;
-      width: 40%;
+      width: 70%;
+
       &__group{
         display:flex;
         flex-direction: column;
         text-align: left;
       }
     }
-    @media screen and (max-width: 60rem) {
-      /*
-      * Mobile, articles are below each other with no shift.
-      * Images are displayed above each article
-      */
-      &__illustration{
-        display:none;
-      }
+  }
+  @media screen and (max-width: 60rem) {
+    &__illustration{
+      display:none;
+    }
+
+    &__content{
+      width: 100%;
       &__form{
         margin: auto;
         width: 100%;
@@ -34,8 +46,3 @@
     }
   }
 }
-
-.center{
-  text-align: center;
-}
-

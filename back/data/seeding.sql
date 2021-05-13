@@ -4,12 +4,9 @@ DELETE FROM picture;
 DELETE FROM question;
 DELETE FROM kind;
 DELETE FROM exercise;
-DELETE FROM doc;
 DELETE FROM theme;
 DELETE FROM possible_answer;
 DELETE FROM client_exercise;
-DELETE FROM client_doc;
-DELETE FROM theme_doc;
 DELETE FROM exercise_theme;
 
 INSERT INTO "responsibility" ("entitled")
@@ -59,14 +56,6 @@ VALUES
 -- ('question 7', 'la', 'explanation 7', 1, 1)
 -- ;
 
--- INSERT INTO "doc" ("title", "brief", "slug", "content", "published", "picture_id")
--- VALUES 
--- ('image', 'doc 1', 'doc-image', 'je suis le doc image', 'true', 1),
--- ('alt', 'doc 2', 'doc-alt', 'je suis le doc alt', 'true', 2),
--- ('doc 3', 'doc 3', 'doc-3', 'je suis le doc 3', 'true', 2),
--- ('doc 4', 'doc 4', 'doc-4', 'je suis le doc 4', 'false', 2)
--- ;
-
 INSERT INTO "theme" ("name", "color")
 VALUES 
 ('Image', '#8E2DFA'),
@@ -104,21 +93,7 @@ VALUES
 -- (5, 3, 4),
 -- (100, 3, 2)
 -- ;
- 
--- INSERT INTO "client_doc" ("client_id", "doc_id")
--- VALUES
--- (1 ,1),
--- (1 ,2),
--- (3 ,2),
--- (3 ,1)
--- ;
 
--- INSERT INTO "theme_doc" ("theme_id", "doc_id")
--- VALUES
--- (1 ,2),
--- (2 ,1),
--- (4 ,1)
--- ;
 
 -- INSERT INTO "exercise_theme" ("exercise_id", "theme_id")
 -- VALUES

@@ -7,12 +7,14 @@
     transform: scaleX(1);   
   }
 }
+
 .wrapper{
   display:flex;
   flex-wrap:wrap;
   justify-content: space-between;
   align-items: flex-start;
 }
+
 .profile{
   margin: auto;
   padding: 2*$gutter;
@@ -41,8 +43,10 @@
       margin-bottom:$gutter;
       object-fit: cover;
     }
+
     &__infos{
       word-break: break-word;
+    
       &__pseudo{
         margin-bottom:$gutter;
       }
@@ -58,6 +62,7 @@
     &__title{
       margin-bottom: $gutter*2;
     }
+
     &__scores{
       display: flex;
       flex-wrap: wrap;
@@ -75,11 +80,13 @@
 
         &__score{
           width: 80%;
+
           &__title{
             margin: 0 1rem 1rem 0;
           }
+
           &__bar{
-            height: 30px;
+            height: 2em;
             width: 100%;
             border-radius: 50px;
             border: solid 1px;
@@ -106,8 +113,10 @@
     &__content{
       width: 30%;
     }
+
     &__progress{
       width: 65%;
+
       &__scores__theme{
         width: 100%;
       }
@@ -121,8 +130,10 @@
       width: 60%;
       margin: 0 auto $gutter;
     }
+
     &__progress{
       width: 100%;
+
       &__scores__theme{
         width: 45%;
       }
@@ -132,24 +143,30 @@
 @media screen and (max-width: 45rem) {
   .profile{
     padding:$gutter;
+
     &__content{
       margin: 0 0 $gutter 0;
       width:100%;
     }
+
     &__progress{
       width: 100%;
+
       &__scores__theme{
         width: 100%;
         flex-wrap:wrap;
         text-align: center;
         justify-content: center;
+
         &__score{
           order:0;
           width: 100%;
+
           &__bar{
             margin-bottom: 1rem;
           }
         }
+
         &__icon{
           order:1;
         }

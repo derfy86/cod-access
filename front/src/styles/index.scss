@@ -37,9 +37,9 @@ strong {
   font-weight: bold;
 }
 
-// p:not(:last-child) {
-//   margin-bottom: 1rem;
-// }
+.center{
+  text-align: center;
+}
 
 .wave-double-bottom {
   background-image: url("src/assets/img/wave.svg");
@@ -126,19 +126,39 @@ strong {
   }
 }
 
-.button--primary {
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 1rem;
   min-height: 36px;
   letter-spacing: 1px;
   font-weight: bold;
   text-transform: uppercase;
+  border-radius: 30px;
+
+  &__text {
+    margin-right: 0.5rem;
+  }
+
+  &[disabled] {
+    filter: grayscale(100%);
+
+    &:hover {
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.button--primary {
   color: $white-color;
   background-color: $primary-color;
   border: none;
   padding: 8px 20px;
-  border-radius: 30px;
   box-shadow: 0px 1px 5px 0px rgba(7, 72, 94, 0.5);
   opacity: 0.9;
+
   &:hover {
     opacity: 1;
     box-shadow: 0px 4px 10px 0px rgba(7, 72, 94, 0.5);
@@ -150,18 +170,13 @@ strong {
 }
 
 .button--secondary {
-  margin: 1rem;
-  min-height: 36px;
-  letter-spacing: 1px;
-  font-weight: bold;
-  text-transform: uppercase;
-  background-color: $white-color;
   color: $primary-color;
+  background-color: $white-color;
   border: solid 1px $dark-gray-color;
   padding: 8px 16px;
-  border-radius: 30px;
   border: 1px solid $primary-color;
   box-shadow: 0px 1px 5px 0px rgba(86, 105, 112, 0.5);
+
   &:hover {
     background-color: $gray-color;
     // box-shadow:  0px 6px 10px 0px rgba(86, 105, 112,0.5);
@@ -174,16 +189,10 @@ strong {
 }
 
 .button--delete {
-  margin: 1rem;
-  height: 36px;
-  letter-spacing: 1px;
-  font-weight: bold;
-  text-transform: uppercase;
   background-color: $color-error;
   color: $white-color;
   border: none;
   padding: 8px 20px;
-  border-radius: 30px;
   box-shadow: 0px 1px 5px 0px rgba(7, 72, 94, 0.5);
   opacity: 0.9;
   &:hover {
@@ -197,17 +206,19 @@ strong {
 }
 
 @media screen and (max-width: 45rem) {
-  .button--primary {
+  .button {
     margin: 0.5rem;
     height: fit-content;
     letter-spacing: 1px;
     font-weight: bold;
     text-transform: uppercase;
+  }
+
+  .button--primary {
     color: $white-color;
     background-color: $primary-color;
     border: none;
     padding: 8px 20px;
-    border-radius: 30px;
     box-shadow: 0px 1px 5px 0px rgba(7, 72, 94, 0.5);
     opacity: 0.9;
     &:hover {
@@ -221,16 +232,10 @@ strong {
   }
 
   .button--secondary {
-    margin: 0.5rem;
-    height: fit-content;
-    letter-spacing: 1px;
-    font-weight: bold;
-    text-transform: uppercase;
     background-color: $white-color;
     color: $primary-color;
     border: solid 1px $dark-gray-color;
     padding: 8px 16px;
-    border-radius: 30px;
     border: 1px solid $primary-color;
     box-shadow: 0px 1px 5px 0px rgba(86, 105, 112, 0.5);
     &:hover {
@@ -245,11 +250,6 @@ strong {
   }
 
   .button--delete {
-    margin: 0.5rem;
-    height: fit-content;
-    letter-spacing: 1px;
-    font-weight: bold;
-    text-transform: uppercase;
     background-color: $color-error;
     color: $white-color;
     border: none;

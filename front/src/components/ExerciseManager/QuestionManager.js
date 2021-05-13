@@ -62,7 +62,7 @@ const QuestionManager = ({
           <legend className="title-h2__without-magin">
             <h2 className="admin-exercise__form__question__header__title title-h2">Question {questionNumber}</h2>
           </legend>
-          <button type="button" onClick={removeQuestion} className="button--delete">
+          <button type="button" onClick={removeQuestion} className="button button--delete">
             Supprimer
             <span className="sr-only">Question {questionNumber}</span>
           </button>
@@ -96,7 +96,7 @@ const QuestionManager = ({
                 <>
                   <div className="flex-space">
                     <p>Image actuelle :</p>
-                    <button className="button--delete" onClick={handleDeleteImage} type="button">Supprimer l'image</button>
+                    <button className="button button--delete" onClick={handleDeleteImage} type="button">Supprimer l'image</button>
                   </div>
                   <img className="preview" src={`${process.env.IMAGE}${imagePath}`} alt="" />
                 </>
@@ -151,14 +151,13 @@ const QuestionManager = ({
                     }
                   </div>
                   <div className="large">
-                    <button className="button--secondary" type="button" onClick={handleSaveImage}>Sauvegarder l'image</button>
+                    <button className="button button--secondary" type="button" onClick={handleSaveImage}>Sauvegarder l'image</button>
                   </div>
                 </>
               )
           }
           {
-            messageParams.isVisible
-            && messageParams.componentToDisplayIn === `QuestionManager-q${id}`
+            messageParams.targetComponent === `QuestionManager-q${id}`
             && (
               <div className="large">
                 <Message {...messageParams} />
@@ -251,8 +250,7 @@ QuestionManager.propTypes = {
   saveOnBlur: PropTypes.func.isRequired,
   isSaved: PropTypes.bool.isRequired,
   messageParams: PropTypes.shape({
-    isVisible: PropTypes.bool.isRequired,
-    componentToDisplayIn: PropTypes.string.isRequired,
+    targetComponent: PropTypes.string.isRequired,
   }).isRequired,
   selectedFile: PropTypes.object,
   imageAlternative: PropTypes.string,

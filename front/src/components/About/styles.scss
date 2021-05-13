@@ -121,7 +121,6 @@
   .about {
     padding: 0.5rem;
     margin-top: $gutter;
-
     &__members {
       flex-direction: column;
       justify-content: center;
@@ -129,49 +128,37 @@
       margin: 1rem 0;
       width: 100%;
       margin: 0;
-  
       &__team {
         width: 90%;
         display: block;
         margin: 1rem 0;
         padding-bottom: 2rem;
         min-height: 0;
-  
         &__imageLeft {
           float: none;
           padding: 0;
         }
-  
         &__imageRight {
           float: none;
           padding: 0;
         }
-  
         &__texte {
           padding-top: 1rem;
           text-align: center;
         }
-  
         &__name {
           font-size: 1.8em;
         }
-  
         &__profil {
           font-size: 1.2em;
         }
-  
       }
     }
   }
-
   .title-h1 {
     padding-bottom: 0 ;
   }
-
   .title-h3 {
     font-size: 1em
   }
-
- 
-
 }

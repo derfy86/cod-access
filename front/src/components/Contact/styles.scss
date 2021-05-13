@@ -2,58 +2,59 @@
 
 .contact{
   padding: $gutter;
+  display:flex;
+
+  &__illustration{
+    width: 50%;
+    margin-bottom: 5rem;
+    padding: 0 $gutter 2*$gutter $gutter;
+  }
   &__content{
     display: flex;
-    padding-bottom: 8rem;
-    &__illustration{
-      width: 40%;
-      margin: 0 auto;
-      padding: 0 2rem 4rem 2rem;
+    flex-direction: column;
+    width: 50%;
+
+    &__title{
+      margin-top: 1rem;
+
     }
     &__form{
       margin: 3rem auto;
-      width: 40%;
+      width: 70%;
+
       &__group{
         display:flex;
         flex-direction: column;
         text-align: left;
+
+        &__submit{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          span {
+            margin-right: 0.5rem;
+          }
+        }
+
+        .textarea {
+          padding-bottom: 2*$gutter;
+        }
       }
     }
-    @media screen and (max-width: 60rem) {
-      /*
-      * Mobile, articles are below each other with no shift.
-      * Images are displayed above each article
-      */
-      &__illustration{
-        display:none;
-      }
-      &__form{
+  }
+  @media screen and (max-width: 60rem) {
+    &__illustration{
+      display:none;
+    }
+
+    &__content{
+      width: 100%;
+        &__form{
         margin: auto;
         width: 100%;
-      }
+        }
     }
   }
 }
 
-.center{
-  text-align: center;
-}
-
-.textarea {
-  padding-bottom: 4rem;
-}
-
-.message {
-  margin-bottom: $gutter;
-  font-size: 0.8em;
-}
-
-.messsage-done {
-  background-color: $color-valid;
-  box-shadow: $shadow;
-  display: block;
-  margin-bottom: $gutter;
-  padding: 16px 8px;
-  border:solid 1px $dark-gray-color;
-  border-radius: 5px;
-}

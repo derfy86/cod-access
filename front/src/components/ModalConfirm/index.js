@@ -25,8 +25,7 @@ const ModalConfirm = ({
   return (
 
     <div className="modal-confirm" role="dialog" aria-modal="true" tabIndex="-1" aria-label={heading}>
-      {/* <button type="button" onClick={closeModal}>Fermer</button> */}
-      <button className="button--actions to--right" type="button" onClick={closeModal}>
+      <button className="button button--actions to--right" type="button" onClick={closeModal}>
         <FontAwesomeIcon icon={faWindowClose} size="2x" />
       </button>
 
@@ -37,7 +36,7 @@ const ModalConfirm = ({
       <div className="modal-confirm__buttons">
         <button
           type="button"
-          className="button--primary"
+          className="button button--primary"
           onClick={handleConfirm}
         >
           {confirmParams.label}
@@ -45,7 +44,7 @@ const ModalConfirm = ({
 
         <button
           type="button"
-          className="button--secondary"
+          className="button button--secondary"
           onClick={handleCancel}
         >
           {cancelParams.label}

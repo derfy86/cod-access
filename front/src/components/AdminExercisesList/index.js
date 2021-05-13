@@ -5,12 +5,11 @@ import {
   useLocation,
 } from 'react-router-dom';
 
-import Message from 'src/containers/Message';
-import CircleLoader from 'src/components/CircleLoader';
-
-import Modal from 'src/containers/ModalConfirm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+
+import Message from 'src/containers/Message';
+import CircleLoader from 'src/components/CircleLoader';
 import Pagination from './Pagination';
 
 import './styles.scss';
@@ -72,8 +71,7 @@ const AdminExercisesList = ({
       <div className="admin__users">
         <h1 className="title-h2">Liste des Exercices</h1>
         {
-          messageParams.isVisible
-          && messageParams.componentToDisplayIn === 'AdminExercisesList'
+          messageParams.targetComponent === 'AdminExercisesList'
           && (
             <Message {...messageParams} />
           )
@@ -81,13 +79,13 @@ const AdminExercisesList = ({
         <table className="admin__users__table">
           <thead>
             <tr>
-              <th>id</th>
-              <th>titre</th>
-              <th>thèmes</th>
-              <th>Publié</th>
-              <th>date de création</th>
-              <th>dernière date de mise à jour</th>
-              <th>actions</th>
+              <th scope="col">id</th>
+              <th scope="col">titre</th>
+              <th scope="col">thèmes</th>
+              <th scope="col">Publié</th>
+              <th scope="col">date de création</th>
+              <th scope="col">dernière date de mise à jour</th>
+              <th scope="col">actions</th>
             </tr>
           </thead>
           <tbody>
@@ -157,10 +155,7 @@ AdminExercisesList.propTypes = {
   isVisible: PropTypes.bool,
   displayMessage: PropTypes.func.isRequired,
   messageParams: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-    componentToDisplayIn: PropTypes.string.isRequired,
-    isVisible: PropTypes.bool.isRequired,
+    targetComponent: PropTypes.string.isRequired,
   }).isRequired,
 };
 

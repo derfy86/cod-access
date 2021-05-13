@@ -13,6 +13,10 @@
     flex-flow: row wrap;
     justify-content: center;
     
+    &__link:hover{
+      text-decoration: underline;
+    }
+
     & li {
       padding: 0 $gutter * 2;
     }

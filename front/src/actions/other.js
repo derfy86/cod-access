@@ -56,3 +56,20 @@ export const setMobileMenuVisibility = (visibility) => ({
   type: SET_MOBILE_MENU_VISIBILITY,
   visibility,
 });
+
+/* contact */
+export const TRY_SEND_CONTACT_MESSAGE = 'TRY_SEND_CONTACT_MESSAGE';
+
+export const trySendContactMessage = ({ name, email, message }) => ({
+  type: TRY_SEND_CONTACT_MESSAGE,
+  name,
+  email,
+  message,
+});
+
+export const SET_CONTACT_LOADING = 'SET_CONTACT_LOADING';
+
+export const setContactLoading = (isLoading) => ({
+  type: SET_CONTACT_LOADING,
+  isLoading,
+});

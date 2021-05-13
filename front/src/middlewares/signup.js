@@ -1,6 +1,5 @@
 import {
   TRY_SIGN_UP,
-  signUp,
   setSignUpLoading,
 } from 'src/actions/signup';
 import {
@@ -14,34 +13,30 @@ export default (store) => (next) => async (action) => {
     case TRY_SIGN_UP:
       try {
         store.dispatch(setSignUpLoading(true));
-        const {
-          signup: {
-            email, pseudo, password, passwordConfirm,
-          },
-        } = store.getState();
+
         const response = await axiosInstance.post('/signup', {
-          email: email.value,
-          pseudo: pseudo.value,
-          password: password.value,
-          passwordConfirm: passwordConfirm.value,
+          email: action.email,
+          pseudo: action.pseudo,
+          password: action.password,
+          passwordConfirm: action.passwordConfirm,
         });
 
         if (response.status !== 200) {
           throw new Error();
         }
+
         store.dispatch(setMessage({
           type: 'confirm',
-          message: `Votre compte a bien été créé avec l'adresse ${email.value}. Vous pouvez vous connecter dès à présent`,
-          componentToDisplayIn: 'SignUp',
+          message: `Votre compte a bien été créé avec l'adresse "${action.email}". Vous pouvez vous connecter dès à présent`,
+          targetComponent: 'SignUp',
         }));
-        store.dispatch(signUp());
       }
       catch ({ response }) {
-        if (response.data.message === 'email used') {
+        if (response?.data?.message === 'email used') {
           store.dispatch(setMessage({
             type: 'error',
-            message: `L'adresse e-mail est déjà utilisée`,
-            componentToDisplayIn: 'SignUp',
+            message: `L'adresse e-mail ${action.email} est déjà utilisée`,
+            targetComponent: 'SignUp',
           }));
         }
       }

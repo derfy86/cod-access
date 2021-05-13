@@ -101,7 +101,9 @@ export const patchQuestionManagerImageAlt = (imageId) => ({
 
 export const SET_QUESTION_MANAGER_IMAGE_ID = 'SET_QUESTION_MANAGER_IMAGE_ID';
 
-export const setQuestionManagerImageId = ({ imageId, questionId, imagePath, imageAlternative }) => ({
+export const setQuestionManagerImageId = ({
+  imageId, questionId, imagePath, imageAlternative,
+}) => ({
   type: SET_QUESTION_MANAGER_IMAGE_ID,
   imageId,
   questionId,

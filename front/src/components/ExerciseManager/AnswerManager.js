@@ -22,7 +22,7 @@ const AnswerManager = ({
         <legend  className="title-h2__without-magin">
           <h2 className="admin-exercise__form__question__header__title title-h3"> Réponse {answerNumber}</h2>
         </legend>
-        <button type="button" className="button--delete" onClick={removeAnswer}>
+        <button type="button" className="button button--delete" onClick={removeAnswer}>
           Supprimer
             <span className="sr-only">Question {questionNumber}</span>
         </button>

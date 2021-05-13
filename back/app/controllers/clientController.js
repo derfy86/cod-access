@@ -1,28 +1,22 @@
-const { Client } = require('../models');
-// const jsonwebtoken = require('jsonwebtoken');
-// const jwt = require('express-jwt');
+const { Picture, Client } = require('../models');
 const bcrypt = require('bcrypt');
 const emailValidator = require('email-validator');
 
+/**
+ * @module clientController
+ */
 module.exports = {
 
     getAllClients: async (req, res) => {
         try{
             const page = Number(req.query.page) - 1 || 0;
             const limit = Number(req.query.limit) || 30;
-            const role = req.user.clientRole
-            if(role !== 'admin'){
-                return res.status(400).json({
-                    error: `access only by admin`
-                });
-            }
             const clients = await Client.findAndCountAll({
                 include:'responsibility',
                 distinct: true,
                 offset: page * limit,
                 limit: limit,
             });
-            console.log('clients', clients);
             return res.status(200).json(
             clients
             );
@@ -35,16 +29,16 @@ module.exports = {
 
     getOneClient: async (req, res, next) => {
         try{
-            const id = Number(req.user.clientId);
-            if (isNaN(id)) {
-                return res.status(400).json({
-                    error: `the provided id must be a number`
+            const clientId = Number(req.user.clientId);
+            if (isNaN(clientId)) {
+                return res.status(406).json({
+                    errorType: 406,
+                    message: `the provided id must be a number`
                 });
             }
-            const client = await Client.findByPk(id, {
-                include: ['client_picture','responsibility','docs','exercises']
+            const client = await Client.findByPk(clientId, {
+                include: ['client_picture','responsibility','exercises']
               });
-            console.log('client', client);
             return res.status(200).json(
                 client
                 );
@@ -57,16 +51,12 @@ module.exports = {
     
     changeRoleClient: async (req, res, next) => {
         try {
-            const role = req.user.clientRole
-            if(role !== 'admin'){
-                return res.status(400).json({
-                    error: `access only by admin`
-                });
-            }
+            /** @name id - the id is actually the clientId but taking in the url parameters */
             const id = Number(req.params.id);
             if (isNaN(id)) {
-                return res.status(400).json({
-                    error: `the provided id must be a number`
+                return res.status(406).json({
+                    errorType: 406,
+                    message: `the provided id must be a number`
                 });
             }
             if(req.body.responsibility === 'utilisateur'){
@@ -75,7 +65,8 @@ module.exports = {
                 req.body.responsibility = 2
             }else{
                 return res.status(400).json({
-                    error: `the status must be client or admin`
+                    errorType: 400,
+                    message: `the status must be client or admin`
                 });
             }
             const client = await Client.findByPk(id, {
@@ -83,14 +74,15 @@ module.exports = {
             });
             
             if (!client) {
-                console.log('miss client');
                 return res.status(404).json({
                   errorType: 404,
                   message: 'miss client'
                 });
             }
             await client.update({responsibility_id: req.body.responsibility});
-            return res.json({message: 'client update'});
+            return res.status(200).json({
+                message: 'client update'
+            });
 
         } catch (error) {
             console.error(error);
@@ -100,21 +92,16 @@ module.exports = {
 
     deleteOneClient: async (req, res, next) => {
         try {
-            const role = req.user.clientRole
-            if(role !== 'admin'){
-                return res.status(400).json({
-                    error: `access only by admin`
-                });
-            }
+            /** @name id - the id is actually the clientId but taking in the url parameters */
             const id = Number(req.params.id);
             if (isNaN(id)) {
-                return res.status(400).json({
-                    error: `the provided id must be a number`
+                return res.status(406).json({
+                    errorType: 406,
+                    message: `the provided id must be a number`
                 });
             }
             const client = await Client.findByPk(id);
             if (!client) {
-                console.log('miss client');
                 return res.status(404).json({
                   errorType: 404,
                   message: 'miss client'
@@ -131,15 +118,15 @@ module.exports = {
 
     deleteProfileClient: async (req, res, next) => {
         try {
-            const id = Number(req.user.clientId);
-            if (isNaN(id)) {
-                return res.status(400).json({
-                    error: `the provided id must be a number`
+            const clientId = Number(req.user.clientId);
+            if (isNaN(clientId)) {
+                return res.status(406).json({
+                    errorType: 406,
+                    message: `the provided id must be a number`
                 });
             }
-            const client = await Client.findByPk(id);
+            const client = await Client.findByPk(clientId);
             if (!client) {
-                console.log('miss client');
                 return res.status(404).json({
                   errorType: 404,
                   message: 'miss client'
@@ -155,17 +142,17 @@ module.exports = {
 
     updateClient: async (req, res, next) => {
         try {
-            const id = Number(req.user.clientId);
-            if (isNaN(id)) {
-                return res.status(400).json({
-                    error: `the provided id must be a number`
+            const clientId = Number(req.user.clientId);
+            if (isNaN(clientId)) {
+                return res.status(406).json({
+                    errorType: 406,
+                    message: `the provided id must be a number`
                 });
             }
-            const client = await Client.findByPk(id);
+            const client = await Client.findByPk(clientId);
             if(req.body.email){
                 const otherClient = await Client.findOne({where: {email: req.body.email}})
                 if (otherClient) {
-                console.log('email used');
                 return res.status(406).json({
                     errorType: 406,
                     message: 'email used'
@@ -173,7 +160,6 @@ module.exports = {
                 } else {
                 const isValidEmail = emailValidator.validate(req.body.email);
                 if (!isValidEmail) {
-                    console.log('email incorrect');
                     return res.status(406).json({
                     errorType: 406,
                     message: 'email incorrect'
@@ -190,14 +176,12 @@ module.exports = {
                 if (isValidPassword) {
 
                     if (req.body.newPassword.length < 6) {
-                        console.log('password need 6');
                         return res.status(411).json({
                             errorType: 411,
                             message: 'password need 6'
                         });
                     }
                     if (req.body.newPassword !== req.body.newPasswordConfirm) {
-                        console.log('password and confirm not same')
                         return res.status(406).json({
                             errorType: 406,
                             message: 'password and confirm not same'
@@ -210,7 +194,6 @@ module.exports = {
                     );
 
                 } else {
-                    console.log('unauthorized');
                     return res.status(401).json({
                         errorType: 401,
                         message: 'unauthorized'
@@ -225,6 +208,37 @@ module.exports = {
             }
           
         } catch (error) {
+            console.error(error);
+            return res.status(500);
+        }
+    },
+
+    addImageToClient: async (req, res, next) => {
+        try{
+            const clientId = Number(req.user.clientId);
+            const myFile = req.file;
+            const pathPicture = myFile.path.substring(6);
+            const picture = new Picture({
+                name: myFile.filename,
+                path: pathPicture,
+                alternative: null
+            })
+        
+            picture.save().then(result => {
+                Client.findByPk(clientId, {
+                include: 'client_picture'
+                }).then(user => {
+                user.update({ picture_id: result.id })
+                })
+                return res.status(200).json(
+                {
+                    pictureId: result.id,
+                    picturePath: result.path,
+                    pictureAlt: result.alternative
+                }
+                );
+            });
+        }catch (error) {
             console.error(error);
             return res.status(500);
         }

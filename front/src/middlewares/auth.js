@@ -9,12 +9,14 @@ import {
   GET_CSRF_TOKEN,
   FETCH_PROGRESS_BY_THEME,
   DELETE_ACCOUNT,
+  SEND_PASSWORD_RESET_REQUEST,
+  SAVE_NEW_PASSWORD,
   signIn,
   signOut,
   setInfoUser,
-  setSelectedFile,
   setProgressByTheme,
-  setAuthLoading,
+  setSignInLoading,
+  setPasswordResetRequestLoading,
 } from 'src/actions/auth';
 
 import {
@@ -27,15 +29,15 @@ export default (store) => (next) => async (action) => {
   switch (action.type) {
     case TRY_SIGN_IN:
       try {
-        store.dispatch(setAuthLoading(true));
-        const { auth: { email, password } } = store.getState();
+        store.dispatch(setSignInLoading(true));
 
         const response = await axiosInstance.post('/signin', {
-          email: email.value,
-          password: password.value,
+          email: action.email,
+          password: action.password,
         });
 
         if (response.status !== 200) {
+          console.log("erreur")
           throw new Error();
         }
 
@@ -47,31 +49,28 @@ export default (store) => (next) => async (action) => {
           store.dispatch(setMessage({
             type: 'error',
             message: 'L\'adresse e-mail ou le mot de passe n\'est pas valide.',
-            componentToDisplayIn: 'SignInForm',
+            targetComponent: 'SignInForm',
           }));
         }
       }
       finally {
-        store.dispatch(setAuthLoading(false));
+        store.dispatch(setSignInLoading(false));
       }
       return next(action);
     case GET_CSRF_TOKEN:
       try {
         // upon loading the app, retrieve the csrf token from the server
-        const {
-          data: dataCSRF,
-          status: statusCSRF,
-        } = await axiosInstance.get('/csrf-token');
+        const { data, status } = await axiosInstance.get('/csrf-token');
 
-        if (statusCSRF !== 200) {
+        if (status !== 200) {
           throw new Error('CSRF error');
         }
 
         // server will check if our csrf cookie token value matches our header token value,
         // meaning the request comes from the app and not another site
-        axiosInstance.defaults.headers.post['X-CSRF-Token'] = dataCSRF.csrfToken;
-        axiosInstance.defaults.headers.patch['X-CSRF-Token'] = dataCSRF.csrfToken;
-        axiosInstance.defaults.headers.delete['X-CSRF-Token'] = dataCSRF.csrfToken;
+        axiosInstance.defaults.headers.post['X-CSRF-Token'] = data.csrfToken;
+        axiosInstance.defaults.headers.patch['X-CSRF-Token'] = data.csrfToken;
+        axiosInstance.defaults.headers.delete['X-CSRF-Token'] = data.csrfToken;
       }
       catch (err) {
         console.log(err);
@@ -82,16 +81,13 @@ export default (store) => (next) => async (action) => {
         // try to access the profile route
         // if our client has an HTTPOnly cookie with a valid JWT, server will respond 200
         // if response is 200, then sign in the user with profile info received. If not, do nothing.
-        const {
-          data: dataProfile,
-          status: statusProfile,
-        } = await axiosInstance.get('/profile');
+        const { data, status } = await axiosInstance.get('/profile');
 
-        if (statusProfile !== 200) {
+        if (status !== 200) {
           throw new Error();
         }
 
-        store.dispatch(signIn(dataProfile));
+        store.dispatch(signIn(data));
       }
       catch (err) {
         console.log(err);
@@ -115,9 +111,8 @@ export default (store) => (next) => async (action) => {
       return next(action);
     case EDIT_PSEUDO_USER:
       try {
-        const { auth: { newPseudo } } = store.getState();
         const response = await axiosInstance.patch('/profile', {
-          pseudo: newPseudo.value,
+          pseudo: action.pseudo,
         });
 
         if (response.status !== 200) {
@@ -127,7 +122,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'confirm',
           message: 'Votre pseudo a bien été modifié.',
-          componentToDisplayIn: 'Settings',
+          targetComponent: 'EditUserPseudoForm',
         }));
 
         store.dispatch(setInfoUser('pseudo', response.data.pseudo));
@@ -137,15 +132,14 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'error',
           message: 'Une erreur est survenue lors de la modification de votre pseudo.',
-          componentToDisplayIn: 'Settings',
+          targetComponent: 'EditUserPseudoForm',
         }));
       }
       return next(action);
     case EDIT_EMAIL_USER:
       try {
-        const { auth: { newEmail } } = store.getState();
         const response = await axiosInstance.patch('/profile', {
-          email: newEmail.value,
+          email: action.email,
         });
 
         if (response.status !== 200) {
@@ -155,8 +149,9 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'confirm',
           message: 'Votre adresse e-mail a bien été modifiée.',
-          componentToDisplayIn: 'Settings',
+          targetComponent: 'EditUserEmailForm',
         }));
+
         store.dispatch(setInfoUser('email', response.data.email));
       }
       catch (err) {
@@ -164,25 +159,26 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'error',
           message: 'Une erreur est survenue lors de la modification de votre adresse e-mail.',
-          componentToDisplayIn: 'Settings',
+          targetComponent: 'EditUserEmailForm',
         }));
       }
       return next(action);
     case EDIT_PASSWORD_USER:
       try {
-        const { auth: { currentPassword, newPassword, newPasswordConfirm } } = store.getState();
         const response = await axiosInstance.patch('/profile', {
-          password: currentPassword.value,
-          newPassword: newPassword.value,
-          newPasswordConfirm: newPasswordConfirm.value,
+          password: action.currentPassword,
+          newPassword: action.newPassword,
+          newPasswordConfirm: action.newPasswordConfirm,
         });
+
         if (response.status !== 200) {
           throw new Error();
         }
+
         store.dispatch(setMessage({
           type: 'confirm',
           message: 'Votre mot de passe a bien été modifié.',
-          componentToDisplayIn: 'Settings',
+          targetComponent: 'EditUserPasswordForm',
         }));
       }
       catch (err) {
@@ -190,49 +186,45 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'error',
           message: 'Une erreur est survenue lors de la modification de votre mot de passe.',
-          componentToDisplayIn: 'Settings',
+          targetComponent: 'EditUserPasswordForm',
         }));
       }
       return next(action);
     case UPLOAD_FILE_PROFILE:
       try {
-        const { auth: { selectedFile } } = store.getState();
         const data = new FormData();
-        data.append('profile', selectedFile);
-        const {
-          data: {
-            myFile: {
-              path: pathPicture,
-            },
-          },
-          status,
-        } = await axiosInstance.post('/upload_client', data, {});
-        if (status !== 200) {
+        data.append('picture', action.selectedFile);
+        const response = await axiosInstance.post('/upload_client', data);
+
+        if (response.status !== 200) {
           throw new Error();
         }
+
         store.dispatch(setMessage({
           type: 'confirm',
           message: 'Votre image a bien été modifiée.',
-          componentToDisplayIn: 'Settings',
+          targetComponent: 'EditUserImageForm',
         }));
-        store.dispatch(setInfoUser('picturePath', pathPicture.substring(6)));
-        store.dispatch(setSelectedFile(null));
+
+        store.dispatch(setInfoUser('picturePath', response.data.picturePath));
       }
       catch (err) {
         console.log(err);
         store.dispatch(setMessage({
           type: 'error',
           message: 'Une erreur est survenue lors de la modification de votre image.',
-          componentToDisplayIn: 'Settings',
+          targetComponent: 'EditUserImageForm',
         }));
       }
       return next(action);
     case FETCH_PROGRESS_BY_THEME:
       try {
         const response = await axiosInstance.get('/themes_score');
+
         if (response.status !== 200) {
           throw new Error();
         }
+
         store.dispatch(setProgressByTheme(response.data));
       }
       catch (err) {
@@ -242,13 +234,72 @@ export default (store) => (next) => async (action) => {
     case DELETE_ACCOUNT:
       try {
         const response = await axiosInstance.delete('/profile');
+
         if (response.status !== 200) {
           throw new Error();
         }
+
         store.dispatch(signOut());
       }
       catch (err) {
         console.log(err);
+      }
+      return next(action);
+    case SEND_PASSWORD_RESET_REQUEST:
+      try {
+        store.dispatch(setPasswordResetRequestLoading(true));
+
+        const response = await axiosInstance.post('/forget', {
+          email: action.email,
+        });
+
+        if (response.status !== 200) {
+          throw new Error();
+        }
+
+        store.dispatch(setMessage({
+          type: 'confirm',
+          message: 'Votre demande a été prise en compte, vous allez recevoir un lien de réinitialisation à l\'adresse e-mail indiquée.',
+          canBeClosed: false,
+          targetComponent: 'PasswordResetRequest',
+        }));
+      }
+      catch (err) {
+        console.log('error', err);
+      }
+      finally {
+        store.dispatch(setPasswordResetRequestLoading(false));
+      }
+      return next(action);
+    case SAVE_NEW_PASSWORD:
+      try {
+        store.dispatch(setPasswordResetRequestLoading(true));
+
+        const response = await axiosInstance.patch('/forget',
+          {
+            password: action.password,
+            passwordConfirm: action.passwordConfirm,
+          },
+          {
+            headers: { Authorization: `Bearer ${action.token}` },
+          });
+
+        if (response.status !== 200) {
+          throw new Error();
+        }
+
+        store.dispatch(setMessage({
+          type: 'confirm',
+          message: 'Votre mot de passe a bien été mis a jour vous allez recevoir un e-mail de confirmation et vous pouvez vous connecter dès à présent avec vos identifiants mis à jour.',
+          canBeClosed: false,
+          targetComponent: 'PasswordReset',
+        }));
+      }
+      catch (err) {
+        console.log('error', err);
+      }
+      finally {
+        store.dispatch(setPasswordResetRequestLoading(false));
       }
       return next(action);
     default:

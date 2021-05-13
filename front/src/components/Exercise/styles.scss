@@ -93,15 +93,6 @@
     }
   }
 
-  & .button--primary[disabled],
-  & .button--secondary[disabled] {
-    filter: grayscale(100%);
-    &:hover {
-      box-shadow: none;
-      cursor: not-allowed;
-    }
-  }
-
   &__quit {
     position: absolute;
     top: 3rem;
@@ -310,12 +301,6 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
-
-    & .button--primary {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
   }
 
   @media screen and (max-width: 60rem) {

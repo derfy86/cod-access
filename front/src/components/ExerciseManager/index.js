@@ -117,7 +117,7 @@ const ExerciseManager = ({
           }
 
           <button
-            className="admin-exercise__form__btn-add button--primary"
+            className="admin-exercise__form__btn-add button button--primary"
             type="button"
             onClick={createQuestion}
           >

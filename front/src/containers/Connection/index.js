@@ -5,10 +5,10 @@ import {
   setConnectionVisibility,
 } from 'src/actions/auth';
 
-const mapStateToProps = ({ auth: { isVisible, isLogged, user } }) => ({
-  isVisible,
-  isLogged,
-  profileImage: user.picturePath,
+const mapStateToProps = ({ auth }) => ({
+  isVisible: auth.signIn.isVisible,
+  isLogged: auth.user.isLogged,
+  profileImage: auth.user.picturePath,
 });
 
 const mapDispatchToProps = (dispatch) => ({

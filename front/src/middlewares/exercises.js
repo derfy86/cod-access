@@ -132,7 +132,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: data.scoreResult >= 50 ? 'confirm' : 'error',
           message: resultMessage,
-          componentToDisplayIn: 'Exercise',
+          targetComponent: 'Exercise',
         }));
       }
       catch (err) {

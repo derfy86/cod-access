@@ -38,7 +38,7 @@ const Connection = ({
       <button
         className={classNames('header-wrapper__connection__toggle-btn', {
           'header-wrapper__connection__toggle-btn--logged': isLogged,
-          'button--primary': !isLogged,
+          'button button--primary': !isLogged,
         })}
         type="button"
         aria-expanded={isVisible}

@@ -4,7 +4,6 @@ const { Model, DataTypes } = require('sequelize');
 
 class Client extends Model { }
 
-//utilisation .init fonction de sequalize
 Client.init({
     email: DataTypes.TEXT,
     pseudo: DataTypes.TEXT,

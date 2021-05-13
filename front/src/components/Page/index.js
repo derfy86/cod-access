@@ -16,8 +16,8 @@ import About from 'src/components/About';
 import Error from 'src/components/Error';
 import Contact from 'src/containers/Contact';
 import LegalNotice from 'src/components/LegalNotice';
-import ForgetPage from 'src/containers/ForgetPage';
-import NewPasswordPage from 'src/containers/NewPasswordPage';
+import PasswordResetRequest from 'src/containers/PasswordResetRequest';
+import PasswordReset from 'src/containers/PasswordReset';
 import Settings from 'src/containers/Settings';
 import Sitemap from 'src/components/Sitemap';
 import PrivateUserRoute from 'src/components/PrivatesRoutes/PrivateUserRoute';
@@ -68,11 +68,11 @@ const Page = ({
         <PrivateAdminRoute path="/admin" component={Dashboard} isLogged={isLogged} role={role} />
 
         <Route exact path="/oubli-mot-de-passe">
-          <ForgetPage />
+          <PasswordResetRequest />
         </Route>
 
-        <Route exact path="/forget/:token">
-          <NewPasswordPage />
+        <Route exact path="/changement-mot-de-passe/:token">
+          <PasswordReset />
         </Route>
 
         <Route exact path="/a-propos">

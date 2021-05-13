@@ -25,7 +25,7 @@ const Home = () => (
         <div className="home-wrapper__article__wrapper__text">
           <h2 className="home-wrapper__article__wrapper__text__heading">Prêt à te jeter à l'eau ?</h2>
           <p className="home-wrapper__article__wrapper__text__paraph">Procède aux différentes réparations du Nautilus en résolvant les challenges du Capitaine et apprends les bonnes pratiques de l'accessibilité web selon le <strong>Référentiel Général d'Amélioration d'Accessibilité français</strong>.</p>
-          <Link className="home-wrapper__article__wrapper__text__link button--primary" to="/challenges">Commencer les challenges</Link>
+          <Link className="home-wrapper__article__wrapper__text__link button button--primary" to="/challenges">Commencer les challenges</Link>
         </div>
       </div>
     </article>
@@ -50,7 +50,7 @@ const Home = () => (
           <h2 className="home-wrapper__article__wrapper__text__heading">Rejoins l'équipage</h2>
           <p className="home-wrapper__article__wrapper__text__paraph">Si tu le souhaites, tu peux t'inscrire pour <strong>visualiser l'avancée</strong> des réparations effectuées et <strong>sauvegarder ta progression</strong>.</p>
           <p className="home-wrapper__article__wrapper__text__paraph">Le capitaine te certifie qu'aucune de tes données personnelles ne seront exploitées et qu'elles ne seront <strong>communiquées à aucun tiers</strong>.</p>
-          <Link className="home-wrapper__article__wrapper__text__link button--primary" to="/inscription">S'inscrire</Link>
+          <Link className="home-wrapper__article__wrapper__text__link button button--primary" to="/inscription">S'inscrire</Link>
         </div>
       </div>
     </article>

@@ -36,7 +36,7 @@ const Filter = ({
               ))
             }
           </ul>
-          <button type="button" className="exercises__wrapper__header__intro__filter__btn--valid button--secondary" onClick={validateFilter}>Valider</button>
+          <button type="button" className="exercises__wrapper__header__intro__filter__btn--valid button button--secondary" onClick={validateFilter}>Valider</button>
         </fieldset>
       )
     }

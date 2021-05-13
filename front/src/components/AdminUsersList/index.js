@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-// import ModalRole from './ModalRole';
 import PropTypes from 'prop-types';
+
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
@@ -67,8 +67,7 @@ const AdminUsersList = ({
     });
   };
 
-  const handleSubmit = (idUser, event) => {
-    event.preventDefault();
+  const handleOnClickValidate = (idUser) => {
     editUserRole(idUser);
   };
 
@@ -77,8 +76,7 @@ const AdminUsersList = ({
       <div className="admin__users">
         <h1 className="title-h2">Liste des utilisateurs</h1>
         {
-          messageParams.isVisible
-          && messageParams.componentToDisplayIn === 'AdminUsersList'
+          messageParams.targetComponent === 'AdminUsersList'
           && (
             <Message {...messageParams} />
           )
@@ -86,13 +84,13 @@ const AdminUsersList = ({
         <table className="admin__users__table">
           <thead>
             <tr>
-              <th>id</th>
-              <th>email</th>
-              <th>pseudo</th>
-              <th>droit</th>
-              <th>date de création</th>
-              <th>dernière date de mise à jour</th>
-              <th>actions</th>
+              <th scope="col">id</th>
+              <th scope="col">email</th>
+              <th scope="col">pseudo</th>
+              <th scope="col">droit</th>
+              <th scope="col">date de création</th>
+              <th scope="col">dernière date de mise à jour</th>
+              <th scope="col">actions</th>
             </tr>
           </thead>
           <tbody>
@@ -103,7 +101,7 @@ const AdminUsersList = ({
                   <td>{user.email}</td>
                   <td>{user.pseudo}</td>
                   <td>
-                    <form className="form-responsibility" onSubmit={() => handleSubmit(user.id, event)}>
+                    <form className="form-responsibility">
                       <select
                         className="form-responsibility__select"
                         value={usersRole[user.id]}
@@ -116,7 +114,7 @@ const AdminUsersList = ({
                         className="button--actions valid"
                         type="button"
                         onClick={() => {
-                          handleSubmit(user.id, event);
+                          handleOnClickValidate(user.id);
                         }}
                       >
                         <FontAwesomeIcon size="lg" icon={faCheckCircle} />
@@ -175,10 +173,7 @@ AdminUsersList.propTypes = {
   handleChangeSelect: PropTypes.func.isRequired,
   totalPages: PropTypes.number.isRequired,
   messageParams: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    componentToDisplayIn: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-    isVisible: PropTypes.bool.isRequired,
+    targetComponent: PropTypes.string.isRequired,
   }).isRequired,
   displayModalConfirm: PropTypes.func.isRequired,
   displayMessage: PropTypes.func.isRequired,

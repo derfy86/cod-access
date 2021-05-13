@@ -1,8 +1,7 @@
 @import "src/styles/vars";
 
-.site-map {
-
-  padding: 6rem;
+.sitemap {
+  padding: 3*$gutter;
   padding-top: 3rem;
   justify-content: center;
 
@@ -11,14 +10,11 @@
     justify-content: center;
     font-weight: bolder;
     font-size: $font-size-title-h1;
-    padding-bottom: 4rem;
+    padding-bottom: 2*$gutter;
   }
 
-  &__subTitle {
-    justify-content: start;
-    font-weight: bolder;
-    font-size: $font-size-title-h2;
-    padding-bottom: 1rem;
+  &__link:hover{
+    text-decoration: underline;
   }
 
   li {
@@ -27,11 +23,12 @@
   }
 
   ul{
-    padding-bottom: 2rem;
+    padding-bottom: $gutter;
   }
 }
+
 @media screen and (max-width: 60rem) {
-  .site-map{
+  .sitemap{
     padding: 3rem 1.5rem ;
   }
 }

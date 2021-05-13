@@ -8,7 +8,7 @@ import './styles.scss';
 const Pagination = ({ totalPages, activePage }) => {
   const pageLinks = [];
 
-  for (let i = 1; i <= totalPages; i++) {
+  for (let i = 1; i <= totalPages; i += 1) {
     pageLinks.push(
       <li key={i}>
         <NavLink

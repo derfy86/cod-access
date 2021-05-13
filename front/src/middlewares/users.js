@@ -44,7 +44,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'confirm',
           message: `L'utilisateur #${action.idUser} a bien été supprimé.`,
-          componentToDisplayIn: 'AdminUsersList',
+          targetComponent: 'AdminUsersList',
         }));
       }
       catch (err) {
@@ -52,7 +52,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'error',
           message: 'Une erreur est survenue lors de la suppression de l\'utilisateur',
-          componentToDisplayIn: 'AdminUsersList',
+          targetComponent: 'AdminUsersList',
         }));
       }
       finally {
@@ -71,7 +71,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'confirm',
           message: `Le rôle de l'utilisateur #${action.idUser} a bien été modifié.`,
-          componentToDisplayIn: 'AdminUsersList',
+          targetComponent: 'AdminUsersList',
         }));
         store.dispatch(setUsers(action.idUser, responsibility));
       }
@@ -80,7 +80,7 @@ export default (store) => (next) => async (action) => {
         store.dispatch(setMessage({
           type: 'error',
           message: 'Une erreur est survenue lors de la modification de l\'utilisateur',
-          componentToDisplayIn: 'AdminUsersList',
+          targetComponent: 'AdminUsersList',
         }));
       }
       finally {

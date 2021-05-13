@@ -1,97 +1,136 @@
 import React from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
+
+import TextField from 'src/components/TextField';
+import useFormManager from 'src/hooks/useFormManager';
 import picture from 'src/assets/img/contact-signup.svg';
 import Message from 'src/containers/Message';
-import FieldGroup from './FieldGroup';
+import CircleLoader from 'src/components/CircleLoader';
 
 import './styles.scss';
 
 const SignUp = ({
-  changeField,
-  email,
-  pseudo,
-  password,
-  passwordConfirm,
   trySignUp,
   loading,
-  isSignedUp,
-  setControlMessage,
-  validateEmail,
-  testPasswordStrength,
-  comparePasswordConfirm,
   messageParams,
+  displayMessage,
 }) => {
+  const formManagerConfig = {
+    submitCallback: trySignUp,
+    cannotSubmitCallback: () => displayMessage({
+      type: 'error',
+      message: 'Le formulaire contient des erreurs. Veuillez les corriger avant de soumettre le formulaire.',
+      targetComponent: 'SignUp',
+    }),
+    initialFields: {
+      email: {
+        value: '',
+        isRequired: true,
+      },
+      pseudo: {
+        value: '',
+        isRequired: true,
+      },
+      password: {
+        value: '',
+        isRequired: true,
+      },
+      passwordConfirm: {
+        value: '',
+        isRequired: true,
+      },
+    },
+  };
+  const formManager = useFormManager(formManagerConfig);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    trySignUp();
+    formManager.trySubmit();
   };
 
   return (
     <div className="signup wave-double-bottom">
+      <img className="signup__illustration" src={picture} alt="" />
       <div className="signup__content">
-        <img className="contact__content__illustration" src={picture} alt="" />
+        <h1 className="title-h1 signup__content__title">Inscription</h1>
+
         <form action="" method="get" className="signup__content__form" onSubmit={handleSubmit}>
           <h1 className="title-h1 center">Inscription</h1>
           {
-            messageParams.isVisible
-            && messageParams.componentToDisplayIn === 'SignUp'
+            messageParams.targetComponent === 'SignUp'
             && (
               <Message {...messageParams} />
             )
           }
-          <FieldGroup
+          <TextField
             type="email"
             id="email"
-            value={email.value}
+            inputClassName="full"
+            value={formManager.fields.email.value}
             label="Adresse e-mail (nom@domaine.fr)"
             name="email"
-            onChange={changeField}
-            isMandatory
-            message={email.controlMessage}
-            setControlMessage={setControlMessage}
-            validateInput={validateEmail}
+            changeValue={formManager.updateValue}
+            isRequired
+            errorMessage={formManager.fieldErrors.email}
+            checkEmailFormat={formManager.checkEmailFormat}
+            checkIsFilled={formManager.checkIsFilled}
           />
-          <FieldGroup
+          <TextField
             type="text"
             id="pseudo"
-            value={pseudo.value}
+            inputClassName="full"
+            value={formManager.fields.pseudo.value}
             label="Pseudo"
             name="pseudo"
-            onChange={changeField}
-            isMandatory
-            message={pseudo.controlMessage}
-            setControlMessage={setControlMessage}
+            changeValue={formManager.updateValue}
+            isRequired
+            errorMessage={formManager.fieldErrors.pseudo}
+            checkIsFilled={formManager.checkIsFilled}
           />
-          <FieldGroup
+          <TextField
             type="password"
             id="password"
-            value={password.value}
+            inputClassName="full"
+            value={formManager.fields.password.value}
             label="Mot de passe"
             name="password"
-            onChange={changeField}
-            isMandatory
-            message={password.controlMessage}
-            setControlMessage={setControlMessage}
-            validateInput={testPasswordStrength}
+            changeValue={formManager.updateValue}
+            isRequired
+            errorMessage={formManager.fieldErrors.password}
+            checkLength={formManager.checkLength}
+            requiredLength={6}
+            checkIsFilled={formManager.checkIsFilled}
           />
-          <FieldGroup
+          <TextField
             type="password"
             id="password_confirm"
-            value={passwordConfirm.value}
+            inputClassName="full"
+            value={formManager.fields.passwordConfirm.value}
             label="Confirmez votre mot de passe"
             name="passwordConfirm"
-            onChange={changeField}
-            isMandatory
-            message={passwordConfirm.controlMessage}
-            setControlMessage={setControlMessage}
-            validateInput={comparePasswordConfirm}
+            changeValue={formManager.updateValue}
+            isRequired
+            errorMessage={formManager.fieldErrors.passwordConfirm}
+            checkPasswordConfirm={formManager.checkPasswordConfirm}
+            valueToCompare={formManager.fields.password.value}
+            checkIsFilled={formManager.checkIsFilled}
           />
           <div className="signup__content__form__group">
             <button
-              className="button--primary"
+              className="button button--primary signup__content__form__group__submit"
               type="submit"
             >
-              {loading ? 'chargement' : 'S\'enregistrer'}
+              <span>S'enregistrer</span>
+              {
+                loading && (
+                  <CircleLoader
+                    colour="#7ED8F7"
+                    radius={8}
+                    duration={2}
+                    strokeWidth={3}
+                  />
+                )
+              }
             </button>
           </div>
         </form>
@@ -101,29 +140,12 @@ const SignUp = ({
 };
 
 SignUp.propTypes = {
-  email: Proptypes.shape({
-    value: Proptypes.string.isRequired,
-    controlMessage: Proptypes.string.isRequired,
+  trySignUp: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  messageParams: PropTypes.shape({
+    targetComponent: PropTypes.string.isRequired,
   }).isRequired,
-  pseudo: Proptypes.shape({
-    value: Proptypes.string.isRequired,
-    controlMessage: Proptypes.string.isRequired,
-  }).isRequired,
-  password: Proptypes.shape({
-    value: Proptypes.string.isRequired,
-    controlMessage: Proptypes.string.isRequired,
-  }).isRequired,
-  passwordConfirm: Proptypes.shape({
-    value: Proptypes.string.isRequired,
-    controlMessage: Proptypes.string.isRequired,
-  }).isRequired,
-  changeField: Proptypes.func.isRequired,
-  trySignUp: Proptypes.func.isRequired,
-  loading: Proptypes.bool,
-  isSignedUp: Proptypes.bool.isRequired,
-  setControlMessage: Proptypes.func.isRequired,
-  validateEmail: Proptypes.func.isRequired,
-  testPasswordStrength: Proptypes.func.isRequired,
+  displayMessage: PropTypes.func.isRequired,
 };
 
 SignUp.defaultProps = {
