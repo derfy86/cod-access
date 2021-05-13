@@ -95,10 +95,10 @@
     &__block-list{
       display:flex;
       flex-wrap: wrap;
-      justify-content: space-between;
 
       &__theme{
         margin-bottom: $gutter;
+        margin-right: $gutter;
         width: 30%;
 
         &__title{
@@ -162,6 +162,7 @@
 
 
   @media screen and (max-width: 80rem) {
+
     &__wrapper{
       padding:1rem;
 
@@ -181,6 +182,7 @@
     }
   }
   @media screen and (max-width: 60rem) {
+    padding: $gutter 0rem 15rem 0rem;
     &__wrapper{
       padding:1rem;
       &__header{
@@ -199,6 +201,7 @@
         flex-wrap:wrap;
         &__theme{
           width:100%;
+          margin-right: 0;
           &__list__exercise{
             &__color{
               width:30%;
