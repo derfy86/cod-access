@@ -10,10 +10,13 @@ import {
   setThemeManagerCheckboxes,
 } from 'src/actions/exerciseManager/themeManager';
 
+import { RESET_MANAGERS } from 'src/actions/exerciseManager';
+
 import axiosInstance from 'src/api';
 
 export default (store) => (next) => async (action) => {
   switch (action.type) {
+    case RESET_MANAGERS:
     case FETCH_THEMES:
       try {
         const response = await axiosInstance.get('/themes');

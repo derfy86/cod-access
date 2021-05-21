@@ -29,7 +29,6 @@ const csrfProtection = csrf({
 // if they match, will go to next middleware, if not, will throw an error
 app.use(csrfProtection);
 
-// must delete this line?
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));

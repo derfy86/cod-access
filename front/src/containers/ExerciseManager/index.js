@@ -28,17 +28,15 @@ const mapStateToProps = ({ exerciseManager, questionManager, other }) => ({
 
 const mapDispatchToProps = (
   dispatch,
-  {
-    match: { params: { exerciseId } },
-  },
+  { match },
 ) => ({
-  getExercise: () => dispatch(fetchExerciseManager(exerciseId)),
+  getExercise: () => dispatch(fetchExerciseManager(match.params.exerciseId)),
   changeValue: ({ value, name }) => dispatch(setExerciseManagerFieldValue({ value, name })),
   createQuestion: () => dispatch(postQuestionManager()),
   createExercise: () => dispatch(postExerciseManager()),
   removeExercise: () => dispatch(deleteExerciseManager()),
   saveOnBlur: () => dispatch(patchExerciseManager()),
-  resetManagerStates: () => dispatch(resetManagers([])),
+  resetManagerStates: () => dispatch(resetManagers()),
 });
 
 export default withRouter(
