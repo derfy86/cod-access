@@ -35,9 +35,11 @@ export const postAnswerManager = (questionId) => ({
 
 export const PATCH_ANSWER_MANAGER = 'PATCH_ANSWER_MANAGER';
 
-export const patchAnswerManager = ({ answerId, value }) => ({
+export const patchAnswerManager = ({ answerId, value, name }) => ({
   type: PATCH_ANSWER_MANAGER,
   answerId,
+  value,
+  name,
 });
 
 export const SET_ANSWER_MANAGER_FIELD_VALUE = 'SET_ANSWER_MANAGER_FIELD_VALUE';

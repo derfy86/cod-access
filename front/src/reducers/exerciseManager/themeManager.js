@@ -31,7 +31,6 @@ const themeManager = (state = initialState, action = {}) => {
           }
           return theme;
         }),
-        loading: false,
       };
     case SET_THEME_MANAGER_ERROR:
       return {
@@ -49,7 +48,6 @@ const themeManager = (state = initialState, action = {}) => {
         updateLoading: action.status,
       };
     case SET_THEME_MANAGER_CHECKBOXES:
-    case RESET_MANAGERS:
       return {
         ...state,
         themes: action.themes.map((theme) => ({

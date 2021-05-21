@@ -1,8 +1,7 @@
 export const SET_EXERCISE_MANAGER_THEMES = 'SET_EXERCISE_MANAGER_THEMES';
 
-export const setExerciseManagerThemes = (themes) => ({
+export const setExerciseManagerThemes = () => ({
   type: SET_EXERCISE_MANAGER_THEMES,
-  themes,
 });
 
 export const SET_EXERCISE_MANAGER_LOADING = 'SET_EXERCISE_MANAGER_LOADING';
