@@ -14,7 +14,6 @@ const PasswordReset = ({
   messageParams,
   displayMessage,
 }) => {
-  const { token } = useParams();
   const formManagerConfig = {
     submitCallback: (fields) => saveNewPassword({
       token: token.replace(/\$/g, '.'),
@@ -37,6 +36,8 @@ const PasswordReset = ({
     },
   };
   const formManager = useFormManager(formManagerConfig);
+
+  const { token } = useParams();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();

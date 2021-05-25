@@ -113,12 +113,14 @@ module.exports = {
 
   submitLoginForm: async (req, res) => {
     try {
+      /** check if the email and the password aren't empty */
       if (req.body.email.length === 0 || req.body.password.length === 0) {
         return res.status(411).json({
           errorType: 411,
           message: 'need email or password'
         });
       } else {
+        /** check if the user exists in the database */
         const client = await Client.findOne({
           where: {
             email: req.body.email
@@ -131,18 +133,23 @@ module.exports = {
             message: 'miss client'
           });
         } else {
+          /** verify that the hash user and the hash database are the same */
           const isValidPassword = await bcrypt.compare(req.body.password, client.password);
           if (isValidPassword) {
+            /** init the content of the new token, by the id and the role about the user */
             const jwtContent = {
               clientId: client.id,
               clientRole: client.responsibility.entitled,
             };
+            /** init token algorithm and time validity */
             const jwtOptions = {
               algorithm: process.env.JWTALGO,
               expiresIn: '3h'
             };
+            /** create the token and storage in cookie httpOnly */
             const token = jsonwebtoken.sign(jwtContent, jwtSecret, jwtOptions);
             res.cookie('token', token, { httpOnly: true });
+            /** returning informations about the user to the front */
             return res.status(200).json({
               id: client.id,
               pseudo: client.pseudo,

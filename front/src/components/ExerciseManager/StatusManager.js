@@ -109,7 +109,7 @@ const StatusManager = ({
         {
           published
             ? 'Dépublier l\'exercice'
-            : 'Publier l\'article'
+            : 'Publier l\'exercice'
         }
       </button>
       <button
