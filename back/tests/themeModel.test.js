@@ -4,7 +4,6 @@ const { Theme } = require('../app/models');
 const themeController = require('../app/controllers/themeController');
 const sequelize = require('../app/database');
 const { QueryTypes } = require('sequelize');
-
 let theFirstQuestion;
 
 describe('GET all questions in the first exercise with query', function(){
