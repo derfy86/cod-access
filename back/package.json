@@ -29,6 +29,7 @@
     "sequelize": "^6.5.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "express-swagger-generator": "^1.1.17"
   }
 }
