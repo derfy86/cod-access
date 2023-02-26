@@ -1,6 +1,6 @@
 @import 'src/styles/vars';
 
-.loading{
+.loading {
   display: flex;
   flex-flow: row wrap;
   gap: 1rem;
@@ -10,116 +10,114 @@
   min-height: calc(100vh - 12rem);
 }
 
-.exercises{
+.exercises {
   padding: $gutter;
   padding-bottom: 15rem;
 
-  &__title{
+  &__title {
     font-size: $font-size-title-h1;
     font-family: $font-title;
     text-align: center;
     margin-bottom: $gutter;
   }
 
-  &__wrapper{
-    padding: $gutter 2*$gutter;
+  &__wrapper {
+    padding: $gutter 2 * $gutter;
 
-    &__header{
-      display:flex;
+    &__header {
+      display: flex;
       justify-content: space-between;
-      &__intro{
+      &__intro {
         width: 87%;
-        &__title{
+        &__title {
           margin-bottom: $gutter;
           font-size: 1.3rem;
         }
-        &__text{
-          padding:1rem;
+        &__text {
+          padding: 1rem;
           border-radius: 10px;
           font-style: italic;
           margin-bottom: $gutter;
           box-shadow: $shadow_bis;
-          &__paraph{
+          &__paraph {
             margin-bottom: 1rem;
           }
-
         }
-        &__filter{
+        &__filter {
           position: absolute;
-          padding: $gutter $gutter $gutter $gutter/2;
+          padding: $gutter $gutter $gutter calc($gutter / 2);
           background-color: $white-color;
           box-shadow: $shadow;
-    
-          &__btn{
+
+          &__btn {
             font-size: 1rem;
             background-color: $white-color;
-            color : $dark-color;
-            border:none;
+            color: $dark-color;
+            border: none;
             border: 1px, solid, $dark-gray-color;
             border-radius: 5px;
             padding: 0.8rem;
             border-radius: 30px;
             margin-bottom: 1rem;
-    
-            &__icon{
+
+            &__icon {
               margin-right: 1rem;
             }
-            &--visible{
+            &--visible {
               border: 2px, solid, $dark-color;
             }
-            &:hover{
+            &:hover {
               border-color: $dark-color;
             }
           }
-    
-          &__legend{
+
+          &__legend {
             display: none;
           }
-    
-          &__item{
+
+          &__item {
             margin-bottom: 1rem;
-            &__label{
-              margin-left:1rem;
+            &__label {
+              margin-left: 1rem;
             }
           }
         }
       }
 
-      &__img{
+      &__img {
         max-height: 7rem;
         transform: scaleX(-1);
       }
     }
 
-
-    &__block-list{
-      display:flex;
+    &__block-list {
+      display: flex;
       flex-wrap: wrap;
 
-      &__theme{
+      &__theme {
         margin-bottom: $gutter;
         margin-right: $gutter;
         width: 30%;
 
-        &__title{
+        &__title {
           font-size: $font-size-title-h2;
           font-weight: bold;
           font-family: $font-title;
           margin-bottom: $gutter;
         }
-  
-        &__list{
-          &__exercise{
-            margin-bottom: 1rem;
-            display:flex;
 
-            &__color{
+        &__list {
+          &__exercise {
+            margin-bottom: 1rem;
+            display: flex;
+
+            &__color {
               width: 20%;
               border-radius: 5px 0 0 5px;
               display: inline-flex;
               align-items: center;
 
-              &__score{
+              &__score {
                 width: 100%;
                 display: inline-block;
                 text-align: center;
@@ -128,29 +126,28 @@
                 align-items: center;
                 line-height: 30px;
               }
-
             }
-            &__link{
+            &__link {
               display: inline-block;
-              display:flex;
+              display: flex;
               justify-content: space-between;
               padding: 1rem;
               width: 100%;
               border: solid 1px $dark-gray-color;
-              border-left:none;
+              border-left: none;
               border-radius: 0 5px 5px 0;
               align-items: center;
-              
-              &:hover{
+
+              &:hover {
                 background-color: $ligth-color;
-                border:solid 1px $ligth-color;
+                border: solid 1px $ligth-color;
               }
 
-              &__text{
+              &__text {
                 text-align: center;
                 width: 75%;
               }
-              &__icon--tools{
+              &__icon--tools {
                 width: 15%;
               }
             }
@@ -160,21 +157,19 @@
     }
   }
 
-
   @media screen and (max-width: 80rem) {
+    &__wrapper {
+      padding: 1rem;
 
-    &__wrapper{
-      padding:1rem;
+      &__block-list {
+        flex-wrap: wrap;
+        &__theme {
+          width: 45%;
 
-      &__block-list{
-        flex-wrap:wrap;
-        &__theme{
-          width:45%;
-
-          &__list__exercise__link{
-            flex-wrap:wrap;
-            &__score{
-              margin-top:1rem;
+          &__list__exercise__link {
+            flex-wrap: wrap;
+            &__score {
+              margin-top: 1rem;
             }
           }
         }
@@ -183,38 +178,38 @@
   }
   @media screen and (max-width: 60rem) {
     padding: $gutter 0rem 15rem 0rem;
-    &__wrapper{
-      padding:1rem;
-      &__header{
-        flex-wrap:wrap;
-        &__intro{
+    &__wrapper {
+      padding: 1rem;
+      &__header {
+        flex-wrap: wrap;
+        &__intro {
           order: 1;
           width: 100%;
         }
-        &__img{
+        &__img {
           order: 0;
           margin: 0 auto 1rem;
         }
       }
 
-      &__block-list{
-        flex-wrap:wrap;
-        &__theme{
-          width:100%;
+      &__block-list {
+        flex-wrap: wrap;
+        &__theme {
+          width: 100%;
           margin-right: 0;
-          &__list__exercise{
-            &__color{
-              width:30%;
+          &__list__exercise {
+            &__color {
+              width: 30%;
             }
-            &__link{
-              flex-wrap:wrap;
-              &__text{
+            &__link {
+              flex-wrap: wrap;
+              &__text {
                 width: 100%;
                 margin-bottom: 1rem;
               }
-              &__icon--tools{
-                width:100%;
-                margin:auto;
+              &__icon--tools {
+                width: 100%;
+                margin: auto;
               }
             }
           }
@@ -223,4 +218,3 @@
     }
   }
 }
-

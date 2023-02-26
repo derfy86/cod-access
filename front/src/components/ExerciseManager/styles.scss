@@ -1,4 +1,4 @@
-@import "src/styles/vars";
+@import 'src/styles/vars';
 
 .loading-centered {
   display: flex;
@@ -192,12 +192,12 @@
         &__answer {
           margin-top: 1rem;
           &::after {
-            content: "";
+            content: '';
             display: block;
             width: 80%;
             background-color: $dark-color;
             height: 1px;
-            margin: $gutter / 2 auto;
+            margin: calc($gutter / 2) auto;
           }
 
           &__header {

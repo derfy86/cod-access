@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "cross-env nodemon index.js",
     "test": "cross-env NODE_PATH=./ mocha \"./{,!(node_modules)/**/}*.test.js\""
   },
   "keywords": [],

@@ -1,3 +1,4 @@
+const scss = require('sass');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
@@ -8,7 +9,6 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   module: {
     rules: [
-      // Styles
       {
         test: /\.(s?css)$/,
         use: [
@@ -30,7 +30,7 @@ module.exports = merge(common, {
             loader: 'sass-loader',
             options: {
               sourceMap: true,
-              implementation: require('sass'),
+              implementation: scss,
             },
           },
         ],

@@ -12,8 +12,8 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    
-    &__link:hover{
+
+    &__link:hover {
       text-decoration: underline;
     }
 
@@ -28,7 +28,7 @@
       flex-flow: column wrap;
       align-items: center;
       & li {
-        padding: $gutter / 2 0;
+        padding: calc($gutter / 2) 0;
       }
     }
   }
