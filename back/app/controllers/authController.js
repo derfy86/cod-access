@@ -11,16 +11,13 @@ const nodemailer = require('nodemailer');
  * @module authController
  */
 module.exports = {
-
   signout: async (req, res) => {
-    res.status(200)
-      .clearCookie('token', { httpOnly: true })
-      .json({ message: 'signed out' });
+    res.status(200).clearCookie('token', { httpOnly: true }).json({ message: 'signed out' });
   },
 
   /**
    * @function getCSRFToken - this token will be sent into a cookie as well as a header set by the React App,
-   * the csrf middleware in the entry file of the server is in charge of checking 
+   * the csrf middleware in the entry file of the server is in charge of checking
    * that both the tokens (sent in cookie + sent in header) are a match,
    * this is to ensure the React App is the source of the request
    */
@@ -33,37 +30,37 @@ module.exports = {
       if (req.body.pseudo.length === 0) {
         return res.status(411).json({
           errorType: 411,
-          message: 'need pseudo'
+          message: 'need pseudo',
         });
-      };
+      }
       const isValidEmail = emailValidator.validate(req.body.email);
       if (!isValidEmail) {
         return res.status(406).json({
           errorType: 406,
-          message: 'email incorrect'
+          message: 'email incorrect',
         });
       }
       if (req.body.password.length < 6) {
         return res.status(411).json({
           errorType: 411,
-          message: 'password need 6'
+          message: 'password need 6',
         });
       }
       if (req.body.password !== req.body.passwordConfirm) {
         return res.status(406).json({
           errorType: 406,
-          message: 'password and confirm not same'
+          message: 'password and confirm not same',
         });
       }
       const client = await Client.findOne({
         where: {
-          email: req.body.email
-        }
+          email: req.body.email,
+        },
       });
       if (client) {
         return res.status(406).json({
           errorType: 406,
-          message: 'email used'
+          message: 'email used',
         });
       } else {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -72,7 +69,7 @@ module.exports = {
           password: hashedPassword,
           pseudo: req.body.pseudo,
           picture_id: 1,
-          responsibility_id: 1
+          responsibility_id: 1,
         });
         await newClient.save();
         /** send mail to newClient */
@@ -80,24 +77,24 @@ module.exports = {
           service: 'gmail',
           auth: {
             user: mailPath,
-            pass: mailPassword
+            pass: mailPassword,
           },
           tls: {
-            rejectUnauthorized: false
-          }
+            rejectUnauthorized: false,
+          },
         });
         const mailOptions = {
           from: mailPath,
           to: req.body.email,
-          subject: 'Cod\'access bienvenue à bord!',
-          text: 'Bienvenue sur cod\'access'
+          subject: "Cod'access bienvenue à bord!",
+          text: "Bienvenue sur cod'access",
         };
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
             console.log(error);
             return res.status(500).json({
               errorType: 500,
-              message: 'mail failed'
+              message: 'mail failed',
             });
           } else {
             console.log('Email sent: ' + info.response);
@@ -116,19 +113,19 @@ module.exports = {
       if (req.body.email.length === 0 || req.body.password.length === 0) {
         return res.status(411).json({
           errorType: 411,
-          message: 'need email or password'
+          message: 'need email or password',
         });
       } else {
         const client = await Client.findOne({
           where: {
-            email: req.body.email
+            email: req.body.email,
           },
-          include: ['responsibility', 'client_picture']
+          include: ['responsibility', 'client_picture'],
         });
         if (!client) {
           return res.status(404).json({
             errorType: 404,
-            message: 'miss client'
+            message: 'miss client',
           });
         } else {
           const isValidPassword = await bcrypt.compare(req.body.password, client.password);
@@ -139,7 +136,7 @@ module.exports = {
             };
             const jwtOptions = {
               algorithm: process.env.JWTALGO,
-              expiresIn: '3h'
+              expiresIn: '3h',
             };
             const token = jsonwebtoken.sign(jwtContent, jwtSecret, jwtOptions);
             res.cookie('token', token, { httpOnly: true });
@@ -149,13 +146,12 @@ module.exports = {
               email: client.email,
               responsibility: client.responsibility,
               picture_id: client.picture_id,
-              client_picture: client.client_picture
+              client_picture: client.client_picture,
             });
-            
           } else {
             return res.status(401).json({
               errorType: 401,
-              message: 'wrong password'
+              message: 'wrong password',
             });
           }
         }
@@ -171,20 +167,20 @@ module.exports = {
       if (req.body.name.length === 0) {
         return res.status(411).json({
           errorType: 411,
-          message: 'need name'
+          message: 'need name',
         });
-      };
+      }
       if (req.body.content.length === 0) {
         return res.status(411).json({
           errorType: 411,
-          message: 'need content'
+          message: 'need content',
         });
-      };
+      }
       const isValidEmail = emailValidator.validate(req.body.email);
       if (!isValidEmail) {
         return res.status(406).json({
           errorType: 406,
-          message: 'email incorrect'
+          message: 'email incorrect',
         });
       }
       /** need email/name/content from front */
@@ -192,25 +188,25 @@ module.exports = {
         service: 'gmail',
         auth: {
           user: mailPath,
-          pass: mailPassword
+          pass: mailPassword,
         },
         tls: {
-          rejectUnauthorized: false
-        }
+          rejectUnauthorized: false,
+        },
       });
       /** send mail to client */
       const mailOptionsToClient = {
         from: mailPath,
         to: req.body.email,
         subject: `Confirmation d'envoi de message`,
-        text: `Merci Mr ${req.body.name} pour l'intérêt que vous portez à notre site. Nous avons bien reçu votre message et traiterons votre demande dans les plus brefs délais. Cordialement.`
+        text: `Merci Mr ${req.body.name} pour l'intérêt que vous portez à notre site. Nous avons bien reçu votre message et traiterons votre demande dans les plus brefs délais. Cordialement.`,
       };
       transporter.sendMail(mailOptionsToClient, function (error, info) {
         if (error) {
           console.log(error);
           return res.status(500).json({
             errorType: 500,
-            message: 'mail failed'
+            message: 'mail failed',
           });
         } else {
           console.log('Email sent: ' + info.response);
@@ -221,19 +217,19 @@ module.exports = {
         from: mailPath,
         to: mailPath,
         subject: 'Nouveau méssage de' + ' ' + req.body.name,
-        text: req.body.content
+        text: req.body.content,
       };
       transporter.sendMail(mailOptionsToUs, function (error, info) {
         if (error) {
           console.log(error);
           return res.status(500).json({
             errorType: 500,
-            message: 'mail failed'
+            message: 'mail failed',
           });
         } else {
           console.log('Email sent: ' + info.response);
           return res.status(200).json({
-            message: 'mail send'
+            message: 'mail send',
           });
         }
       });
@@ -242,73 +238,72 @@ module.exports = {
       return res.status(500);
     }
   },
-  
+
   forgetPassword: async (req, res) => {
     try {
       if (req.body.email.length === 0) {
         return res.status(411).json({
           errorType: 411,
-          message: 'need mail'
+          message: 'need mail',
         });
-      };
+      }
       const isValidEmail = emailValidator.validate(req.body.email);
       if (!isValidEmail) {
         return res.status(406).json({
           errorType: 406,
-          message: 'email incorrect'
+          message: 'email incorrect',
         });
-      };
+      }
       /** verify if email exist in database */
-      const client = await Client.findOne({where:{email: req.body.email}})
-      if(!client) {
+      const client = await Client.findOne({ where: { email: req.body.email } });
+      if (!client) {
         return res.status(404).json({
           errorType: 404,
-          message: 'email not found'
+          message: 'email not found',
         });
-      };
+      }
       const jwtContent = {
         clientId: client.id,
-        clientEmail: client.email
+        clientEmail: client.email,
       };
       const jwtOptions = {
         algorithm: process.env.JWTALGO,
-        expiresIn: '0.15h'
+        expiresIn: '0.15h',
       };
       let token = jsonwebtoken.sign(jwtContent, jwtSecret, jwtOptions);
-      token = token.replace(/\./g,'$')
-      /** need email to front for sending email */ 
+      token = token.replace(/\./g, '$');
+      /** need email to front for sending email */
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: mailPath,
-          pass: mailPassword
+          pass: mailPassword,
         },
         tls: {
-          rejectUnauthorized: false
-        }
+          rejectUnauthorized: false,
+        },
       });
       /** send mail to client */
       const mailOptionsToClient = {
         from: mailPath,
         to: req.body.email,
-        subject: 'Creation d\'un nouveau mot de passe',
-        text: `Veuillez cliquer sur le lien ci-dessous pour pouvoir créer un nouveau mot de passe: http://localhost:8080/changement-mot-de-passe/${token}`
+        subject: "Creation d'un nouveau mot de passe",
+        text: `Veuillez cliquer sur le lien ci-dessous pour pouvoir créer un nouveau mot de passe: http://localhost:8080/changement-mot-de-passe/${token}`,
       };
       transporter.sendMail(mailOptionsToClient, function (error, info) {
         if (error) {
           console.log(error);
           return res.status(500).json({
             errorType: 500,
-            message: 'mail failed'
+            message: 'mail failed',
           });
         } else {
           console.log('Email sent: ' + info.response);
           return res.status(200).json({
-            message: 'mail send'
+            message: 'mail send',
           });
         }
       });
-     
     } catch (error) {
       console.error(error);
       return res.status(500);
@@ -317,62 +312,63 @@ module.exports = {
 
   newPassword: async (req, res) => {
     try {
-      const client = await Client.findOne({where:{id: req.user.clientId, email: req.user.clientEmail}})
-      if(!client) {
+      const client = await Client.findOne({
+        where: { id: req.auth.clientId, email: req.auth.clientEmail },
+      });
+      if (!client) {
         return res.status(404).json({
           errorType: 404,
-          message: 'user not found'
+          message: 'user not found',
         });
-      };
+      }
       if (req.body.password.length < 6) {
         return res.status(411).json({
           errorType: 411,
-          message: 'password need 6'
+          message: 'password need 6',
         });
       }
       if (req.body.password !== req.body.passwordConfirm) {
         return res.status(406).json({
           errorType: 406,
-          message: 'password and confirm not same'
+          message: 'password and confirm not same',
         });
       }
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      if(client){
-        await client.update({password: hashedPassword});
+      if (client) {
+        await client.update({ password: hashedPassword });
       }
       /** need email to front for sending email */
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: mailPath,
-          pass: mailPassword
+          pass: mailPassword,
         },
         tls: {
-          rejectUnauthorized: false
-        }
+          rejectUnauthorized: false,
+        },
       });
       /** send mail to client */
       const mailOptionsToClient = {
         from: mailPath,
-        to: req.user.clientEmail,
+        to: req.auth.clientEmail,
         subject: 'Modification de votre mot de passe',
-        text: `Votre mot de passe a bien été mis à jour si vous n'êtes pas l'auteur de cette action contactez notre service au plus vite.`
+        text: `Votre mot de passe a bien été mis à jour si vous n'êtes pas l'auteur de cette action contactez notre service au plus vite.`,
       };
       transporter.sendMail(mailOptionsToClient, function (error, info) {
         if (error) {
           console.log(error);
           return res.status(500).json({
             errorType: 500,
-            message: 'mail failed'
+            message: 'mail failed',
           });
         } else {
           console.log('Email sent: ' + info.response);
           return res.status(200).json({
-            message: 'mdp updated, mail send'
+            message: 'mdp updated, mail send',
           });
         }
       });
-      
     } catch (error) {
       console.error(error);
       return res.status(500);
